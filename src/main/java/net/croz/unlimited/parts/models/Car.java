@@ -1,6 +1,7 @@
 package net.croz.unlimited.parts.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +25,9 @@ public class Car {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-   // @ManyToMany(fetch = FetchType.LAZY)
-    //@JoinTable(name = "car_part",
-      //      joinColumns = @JoinColumn(name = "car_id"),
-        //    inverseJoinColumns = @JoinColumn(name="part_id"))
-    //private Set<Part> carParts = new HashSet<>();
+    /*@ManyToMany(fetch = FetchType.LAZY, mappedBy = "cars")
+    @Transient
+    private Set<Part> carParts = new HashSet<>();*/
 
     public Car(String name, Brand brand){
         this.name = name;

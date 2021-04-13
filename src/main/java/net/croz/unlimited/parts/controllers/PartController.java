@@ -1,15 +1,24 @@
 package net.croz.unlimited.parts.controllers;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
+import net.croz.unlimited.parts.exceptions.ExceptionResponse;
+import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.Car;
 import net.croz.unlimited.parts.models.Part;
 import net.croz.unlimited.parts.repository.CarRepository;
 import net.croz.unlimited.parts.repository.PartRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/parts")
@@ -17,17 +26,70 @@ public class PartController {
     @Autowired
     PartRepository partRepository;
 
-    @Autowired
-    CarRepository carRepository;
+    private static final Logger logger = LoggerFactory.getLogger(PartController.class);
+
+    @ExceptionHandler(NoSuchElementFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ExceptionResponse> handleNoSuchElementException(NoSuchElementFoundException exception){
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode("NOT_FOUND");
+        response.setErrorMessage(exception.getMessage());
+        response.setTimestamp(LocalDateTime.now());
+        logger.error("Element not found: {}",exception.getMessage());
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/add-part")
+    public Part createPart(@RequestBody Part part){
+        Part savedPart = partRepository.save(part);
+        return savedPart;
+    }
 
     @GetMapping("/get-all-parts")
     public List<Part> getAllParts(){
         var parts = partRepository.findAll();
         return parts;
     }
-    @GetMapping("/get-all-cars")
-    public List<Car> getAllCars(){
-        var cars = carRepository.findAll();
-        return cars;
+
+    @GetMapping("/get-part/{serial}")
+    public Part getPartBySerial(@PathVariable(value = "serial") Long serial){
+        var requiredPart = partRepository.findBySerial(serial)
+                .orElseThrow(()->new NoSuchElementFoundException("No such element with serial code "+serial));
+        return requiredPart;
     }
+
+    @GetMapping("/get-parts/{date}")
+    public Part getPartByProductionDate(@PathVariable(value = "date")
+                                            @DateTimeFormat(pattern = "dd-MM-yyyy") Date date){
+        var requiredPart = partRepository.findByProductionDate(date)
+                .orElseThrow(()->new NoSuchElementFoundException("No such element with date "+date.toString()));
+        return requiredPart;
+    }
+
+    @GetMapping("/get-part-by/{brandName}/{carName}")
+    public List<Part> getPartByBrandAndCarName(@PathVariable(value="carName") String carName,
+                                               @PathVariable(value = "brandName") String brandName){
+        var requiredPart = partRepository.findByCarsNameAndCarsBrandName(carName, brandName);
+        return requiredPart;
+    }
+
+    @GetMapping("/get-part-count/{brandName}/{carName}")
+    public Map<String, String> getPartByBrandAndCarNameCount(@PathVariable(value="carName") String carName,
+                                                             @PathVariable(value = "brandName") String brandName) {
+        Map<String, String> hashMap = new HashMap<>();
+        hashMap.put("brand_and_automobile", brandName+" "+carName);
+        hashMap.put("count", partRepository.findByCarsNameAndCarsBrandName(carName,brandName).size()+"");
+        return  hashMap;
+    }
+
+    @DeleteMapping("/delete-part/{id}")
+    public Map<String, Boolean> deletePart(@PathVariable(value = "id") Long id){
+        var part = partRepository.findById(id).orElseThrow(()-> new NoSuchElementFoundException("No element with Id "+id));
+        Map<String, Boolean> response = new HashMap<>();
+        partRepository.delete(part);
+        response.put("deleted",Boolean.TRUE);
+        return response;
+    }
+
+
 }

@@ -21,7 +21,7 @@ public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String serial;
+    private Long serial;
     private Date productionDate;
     //TODO: Auto ima dijelove, dijelovi imaju auta, auta imaju dijelove...
     @ManyToMany(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Part {
             inverseJoinColumns = @JoinColumn(name="car_id"))
     private Set<Car> cars = new HashSet<>();
 
-    public Part(String serial, Date productionDate){
+    public Part(Long serial, Date productionDate){
         this.serial = serial;
         this.productionDate = productionDate;
     }
