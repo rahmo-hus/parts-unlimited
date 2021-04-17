@@ -12,6 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,12 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class ProductRepository{
 
-    private static final String POSTGRES_INSERT = "INSERT INTO sales.product(serial, price) VALUES (?,?)";
+    private static final String POSTGRES_INSERT = "insert into sales.product(serial, price) SELECT * FROM ( values (?,?)) as p(newS, newP)where exists(select from part pa where pa.serial=p.newS);";
     private static final String POSTGRES_SELECT_ALL = "SELECT * FROM sales.product";
     private static final String POSTGRES_UPDATE = "UPDATE sales.product SET price=? WHERE ID=?";
-    private static final String POSTGRES_FIND_BY_SERIAL="SELECT * FROM sales.product WHERE serial=?";
-
-    final KeyHolder keyHolder = new GeneratedKeyHolder();
+    private static final String POSTGRES_DELETE = "DELETE FROM sales.product WHERE id=?";
 
     @Autowired
     PartRepository partRepository;
@@ -36,58 +35,56 @@ public class ProductRepository{
 
     @Transactional
     public int save(Product product){
-        int rows = 0;
-        try {
-            rows = jdbcTemplate.update("insert into sales.product(serial, price) SELECT * FROM ( values ("
-                    + product.getSerial() + "," + product.getPrice() + ")) as p(newS, newP)\n" +
-                    "where exists(select from part pa where pa.serial=p.newS);");
-        }
-        catch (Throwable e){
-            throw new DuplicateItemException(e.getMessage());
-        }
-        if(rows == 0) throw new NoSuchElementFoundException("Cannot add product. There is no part with serial "+product.getSerial());
-        return rows;
+        boolean added;
+             added = jdbcTemplate.execute(POSTGRES_INSERT, new PreparedStatementCallback<Boolean>() {
+                @Override
+                public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+                    ps.setLong(1, product.getSerial());
+                    ps.setDouble(2, product.getPrice());
+                    boolean success=false;
+                    try {
+                        success = ps.execute();
+                    }
+                    catch (Throwable e){
+                        throw new DuplicateItemException("Product with serial "+product.getSerial()+" already exists.");
+                    }
+                    if(!success) throw new NoSuchElementFoundException("Cannot add product. There is no part with serial "+product.getSerial());
+                    return true;
+                }
+            });
+             return added ? 1 :0;
 
     }
 
     @Transactional
     public List<Product> getProducts(){
-        return jdbcTemplate.query(POSTGRES_SELECT_ALL, new ProductMapper());
-    }
-
-    @Transactional
-    public int update(Long id, Double newPrice){
-        Object[] values = new Object[]{newPrice, id};
-        return jdbcTemplate.update(POSTGRES_UPDATE, values);
-    }
-
-    @Transactional
-    public List<Product> findBySerial(Long serial){
-        List<Product> products= jdbcTemplate.query(POSTGRES_FIND_BY_SERIAL,new Object[]{serial},
-                new BeanPropertyRowMapper<Product>(Product.class));
-        return products;
-    }
-
-    @Transactional
-    public Product findById(Long id){
-        Product product = null;
-        try {
-            product = jdbcTemplate.queryForObject("SELECT * FROM sales.product WHERE id=?",
-                    new Object[]{id}, new ProductMapper());
-        }
-        catch (EmptyResultDataAccessException e){
-            return null;
-        }
-        return product;
+        return jdbcTemplate.query(POSTGRES_SELECT_ALL, new BeanPropertyRowMapper<>(Product.class));
     }
 
     @Transactional
     public int delete(Long id){
-        return jdbcTemplate.update("DELETE FROM sales.product WHERE id=?", id);
+
+        int affectedRows = jdbcTemplate.execute(POSTGRES_DELETE, new PreparedStatementCallback<Integer>() {
+            @Override
+            public Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+                ps.setLong(1,id);
+                return ps.executeUpdate();
+            }
+        });
+        return affectedRows;
     }
 
     @Transactional
     public int changePrice(Long id, Double price){
-        return jdbcTemplate.update("update sales.product set price=? where id=?", price, id);
+        int affectedRows = jdbcTemplate.execute(POSTGRES_UPDATE, new PreparedStatementCallback<Integer>() {
+            @Override
+            public Integer doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
+                ps.setDouble(1, price);
+                ps.setLong(2, id);
+
+                return ps.executeUpdate();
+            }
+        });
+        return affectedRows;
     }
 }

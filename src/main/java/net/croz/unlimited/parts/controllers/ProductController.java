@@ -1,18 +1,14 @@
 package net.croz.unlimited.parts.controllers;
 
-
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.models.sales.Discount;
 import net.croz.unlimited.parts.models.sales.Product;
-import net.croz.unlimited.parts.repository.DiscountRepository;
+import net.croz.unlimited.parts.payload.response.MessageResponse;
 import net.croz.unlimited.parts.repository.ProductRepository;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,9 +25,6 @@ public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
-
-    @Autowired
-    DiscountRepository discountRepository;
 
     @ExceptionHandler(NoSuchElementFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -62,8 +55,8 @@ public class ProductController {
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('SALES')")
     int updatePrice(@PathVariable Long id,@Valid @RequestBody Map<String, Double> price){
-         int   success = productRepository.update(id, price.get("price"));
-        return success; //return
+         int   success = productRepository.changePrice(id, price.get("price"));
+        return success;
 
     }
 
@@ -72,41 +65,15 @@ public class ProductController {
     ResponseEntity addProduct(@RequestBody Product product) throws SQLException {
 
         int success = productRepository.save(product);
-       return success == 1 ? ResponseEntity.ok().build() : ResponseEntity.status(404).build(); //TODO: do
+       return success == 1 ? ResponseEntity.ok().build() : ResponseEntity.status(404).body(new MessageResponse("Product not found"));
 
     }
-    @PostMapping("/discount")
-    @PreAuthorize("hasRole('SALES')")
-    public ResponseEntity addDiscount(@RequestBody Discount discount){
-        var d = discountRepository.save(discount);
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/add-to-discount/{dId}")
-    @PreAuthorize("hasRole('SALES')")
-    public ResponseEntity addToDiscount(@PathVariable(name = "dId") Long discountId, @RequestBody Map<String, Long> serial){
-        var val =discountRepository.saveProductToDiscount(serial.get("serial"), discountId);
-        return val!=0 ? ResponseEntity.status(200).build(): ResponseEntity.status(300).build();
-        //return ResponseEntity.ok().build(); //TODO:fix
-    }
-
-    @GetMapping("/get-all-discounts")
-    @PreAuthorize("hasRole('SALES')")
-    public List<Discount> getAll(){
-        return discountRepository.findAll();
-    }
-
-
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('SALES')")
     public Map<String, Boolean> deleteProduct(@PathVariable(value = "id") Long id){
         Map<String, Boolean> response = new HashMap<>();
-        if(productRepository.findById(id) == null) {
-            productRepository.delete(id);
-            response.put("deleted", Boolean.FALSE);
-        }
-        else
-            response.put("deleted", Boolean.TRUE);
+        int success = productRepository.delete(id);
+        response.put("deleted", success == 1);
         return response;
     }
 }
