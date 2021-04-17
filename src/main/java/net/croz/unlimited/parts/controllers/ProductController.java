@@ -67,11 +67,12 @@ public class ProductController {
 
     }
 
-    @PostMapping("/add")
+    @PostMapping("/add-product")
     @PreAuthorize("hasRole('SALES')")
     ResponseEntity addProduct(@RequestBody Product product) throws SQLException {
 
-       return ResponseEntity.ok().build(); //TODO: do
+        int success = productRepository.save(product);
+       return success == 1 ? ResponseEntity.ok().build() : ResponseEntity.status(404).build(); //TODO: do
 
     }
     @PostMapping("/discount")

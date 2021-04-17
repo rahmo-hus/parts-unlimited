@@ -3,6 +3,8 @@ package net.croz.unlimited.parts.repository;
 import java.sql.*;
 import  java.util.List;
 
+import net.croz.unlimited.parts.exceptions.DuplicateItemException;
+import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.mappers.ProductMapper;
 import net.croz.unlimited.parts.models.sales.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,17 @@ public class ProductRepository{
 
     @Transactional
     public int save(Product product){
-      //TODO: IMPLEMENT SAVE
-        return 1;
+        int rows = 0;
+        try {
+            rows = jdbcTemplate.update("insert into sales.product(serial, price) SELECT * FROM ( values ("
+                    + product.getSerial() + "," + product.getPrice() + ")) as p(newS, newP)\n" +
+                    "where exists(select from part pa where pa.serial=p.newS);");
+        }
+        catch (Throwable e){
+            throw new DuplicateItemException(e.getMessage());
+        }
+        if(rows == 0) throw new NoSuchElementFoundException("Cannot add product. There is no part with serial "+product.getSerial());
+        return rows;
 
     }
 

@@ -38,9 +38,9 @@ public class DiscountRepository {
     }
 
     @Transactional //not good
-    public int saveProductToDiscount(Long productId, List<Long> serialNumbers){
-        int rows = jdbcTemplate.update("");
-        return rows;
+    public int saveProductToDiscount(Long productId, Long serialNumber){
+        //int rows = jdbcTemplate.update();
+        return 0;
     }
 
     @Transactional //maybeeee good
@@ -49,8 +49,7 @@ public class DiscountRepository {
         discountList.stream().forEach(discount ->{
             discount.setProducts(
                     jdbcTemplate.query("select id, serial, price from sales.product\n" +
-                            "left join sales.product_discount pd on product.id = pd.product_id\n" +
-                            "where pd.discount_id="+discount.getId()+";", new BeanPropertyRowMapper<>(Product.class)));
+                            "where sales.product.discount_id=" + discount.getId()+";", new BeanPropertyRowMapper<>(Product.class)));
         } );
         return discountList;
     }

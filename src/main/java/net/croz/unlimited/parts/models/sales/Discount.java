@@ -20,9 +20,7 @@ public class Discount {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private Integer discountPercentage;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="product_discount",
-            joinColumns = @JoinColumn(name="discount_id"),
-            inverseJoinColumns = @JoinColumn(name="product_id"))
+    @OneToMany(fetch = FetchType.LAZY)
+            @JoinColumn(name = "discount_id")
     List<Product> products = new ArrayList<>();
 }
