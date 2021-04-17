@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.models;
+package net.croz.unlimited.parts.models.entities;
 
 
 import lombok.Data;
@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name="brand")
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,12 +1,8 @@
-package net.croz.unlimited.parts.models;
+package net.croz.unlimited.parts.models.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import net.croz.unlimited.parts.models.entities.Car;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -16,14 +12,12 @@ import java.util.Set;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name="part")
 public class Part {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long serial;
     private Date productionDate;
-    //TODO: Auto ima dijelove, dijelovi imaju auta, auta imaju dijelove...
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "car_part",
             joinColumns = @JoinColumn(name = "part_id"),
