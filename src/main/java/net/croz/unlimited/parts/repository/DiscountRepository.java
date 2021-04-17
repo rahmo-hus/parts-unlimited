@@ -38,9 +38,14 @@ public class DiscountRepository {
     }
 
     @Transactional //not good
-    public int saveProductToDiscount(Long productId, Long serialNumber){
-        //int rows = jdbcTemplate.update();
-        return 0;
+    public int saveProductToDiscount(Long productSerial, Long discountId){
+        int rows = jdbcTemplate
+                .update("update sales.product set discount_id="+discountId+",\n" +
+                        "        price= price - (select discount_percentage from sales.discount where id="+discountId+")*price/100\n" +
+                        "where (select start_date from sales.discount where id="+discountId+")< CURRENT_DATE\n" +
+                        "  and (select end_date from sales.discount where id="+discountId+") >CURRENT_DATE\n" +
+                        "  and serial="+productSerial+" and discount_id IS NULL;");
+        return rows;
     }
 
     @Transactional //maybeeee good

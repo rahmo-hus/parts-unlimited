@@ -84,10 +84,10 @@ public class ProductController {
 
     @PostMapping("/add-to-discount/{dId}")
     @PreAuthorize("hasRole('SALES')")
-    public ResponseEntity addToDiscount(@PathVariable(name = "dId") Long discountId, @RequestBody List<Product> products){
-       /* var val =discountRepository.saveProductToDiscount(discountId, products);
-        return val!=0 ? ResponseEntity.status(200).build(): ResponseEntity.status(500).build();*/
-        return ResponseEntity.ok().build(); //TODO:fix
+    public ResponseEntity addToDiscount(@PathVariable(name = "dId") Long discountId, @RequestBody Map<String, Long> serial){
+        var val =discountRepository.saveProductToDiscount(serial.get("serial"), discountId);
+        return val!=0 ? ResponseEntity.status(200).build(): ResponseEntity.status(300).build();
+        //return ResponseEntity.ok().build(); //TODO:fix
     }
 
     @GetMapping("/get-all-discounts")
