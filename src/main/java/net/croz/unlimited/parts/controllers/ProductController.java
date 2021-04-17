@@ -13,7 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +45,7 @@ public class ProductController {
     }
 
     @GetMapping("/get-all")
-    @PreAuthorize("hasRole('SALES')")
+    @PreAuthorize("hasRole('SALES') or hasRole('CUSTOMER')")
     List<Product> getProducts(){
         List<Product> products = productRepository.getProducts();
         return products;
@@ -54,18 +53,16 @@ public class ProductController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('SALES')")
-    int updatePrice(@PathVariable Long id,@Valid @RequestBody Map<String, Double> price){
+    ResponseEntity updatePrice(@PathVariable Long id,@Valid @RequestBody Map<String, Double> price){
          int   success = productRepository.changePrice(id, price.get("price"));
-        return success;
-
+        return ResponseEntity.ok().body(new MessageResponse("Product updated successfully"));
     }
 
     @PostMapping("/add-product")
     @PreAuthorize("hasRole('SALES')")
-    ResponseEntity addProduct(@RequestBody Product product) throws SQLException {
-
+    ResponseEntity addProduct(@Valid @RequestBody Product product) {
         int success = productRepository.save(product);
-       return success == 1 ? ResponseEntity.ok().build() : ResponseEntity.status(404).body(new MessageResponse("Product not found"));
+       return success == 1 ? ResponseEntity.ok().body(new MessageResponse("Product saved successfully")) : ResponseEntity.status(404).body(new MessageResponse("Product not found"));
 
     }
     @DeleteMapping("/delete/{id}")

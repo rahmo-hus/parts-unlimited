@@ -1,29 +1,25 @@
 package net.croz.unlimited.parts.repository;
 
-import java.sql.*;
-import  java.util.List;
-
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.mappers.ProductMapper;
 import net.croz.unlimited.parts.models.sales.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;
-import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class ProductRepository{
 
     private static final String POSTGRES_INSERT = "insert into sales.product(serial, price) SELECT * FROM ( values (?,?)) as p(newS, newP)where exists(select from part pa where pa.serial=p.newS);";
-    private static final String POSTGRES_SELECT_ALL = "SELECT * FROM sales.product";
+    private static final String POSTGRES_SELECT_ALL = "SELECT sales.product.id, sales.product.serial, price, production_date FROM sales.product inner join part p on sales.product.serial=p.serial";
     private static final String POSTGRES_UPDATE = "UPDATE sales.product SET price=? WHERE ID=?";
     private static final String POSTGRES_DELETE = "DELETE FROM sales.product WHERE id=?";
 
@@ -41,7 +37,7 @@ public class ProductRepository{
                 public Boolean doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
                     ps.setLong(1, product.getSerial());
                     ps.setDouble(2, product.getPrice());
-                    boolean success=false;
+                    boolean success;
                     try {
                         success = ps.execute();
                     }

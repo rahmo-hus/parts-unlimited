@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface PartRepository extends JpaRepository<Part, Long> {
     Optional<Part> findBySerial(Long serial);
-    Optional<Part> findByProductionDate(Date date);
+    List<Part> findAllByProductionDate(Date date);
     List<Part> findByCarsNameAndCarsBrandName(String carName, String brandName);
 }

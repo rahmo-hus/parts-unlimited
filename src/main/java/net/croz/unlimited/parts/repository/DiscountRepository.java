@@ -26,13 +26,13 @@ public class DiscountRepository {
             "  and serial=? and discount_id IS NULL;";
     private static final String POSTGRES_ADD_DISCOUNT = "insert into sales.discount(start_date, end_date, discount_percentage) values ('?','?',?)";
     private static final String POSTGRES_FIND_ALL = "select * from sales.discount";
-    private static final String POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID ="select id, serial, price from sales.product\n" +
-            "where sales.product.discount_id=?";
+    private static final String POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID ="select sales.product.id, sales.product.serial, price, production_date from sales.product "
+    +"inner join part p on p.serial=sales.product.serial where sales.product.discount_id=?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Transactional //OK
+    @Transactional
     public int save(Discount discount){
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String startDate = simpleDateFormat.format(discount.getStartDate());
@@ -50,7 +50,7 @@ public class DiscountRepository {
         return affectedRows;
     }
 
-    @Transactional //should be good
+    @Transactional
     public int saveProductToDiscount(Long productSerial, Long discountId){
 
         int affectedRows = jdbcTemplate.execute(POSTGRES_SAVE_PRODUCT_TO_DISCOUNT, (PreparedStatementCallback<Integer>) ps -> {
@@ -63,7 +63,7 @@ public class DiscountRepository {
         return affectedRows;
     }
 
-    @Transactional //maybeeee good
+    @Transactional
     public List<Discount> findAll(){
         List<Discount> discountList = jdbcTemplate.query(POSTGRES_FIND_ALL, new BeanPropertyRowMapper<>(Discount.class));
         discountList.stream().forEach(discount ->{
@@ -79,6 +79,7 @@ public class DiscountRepository {
                                 product.setId(resultSet.getLong("id"));
                                 product.setSerial(resultSet.getLong("serial"));
                                 product.setPrice(resultSet.getDouble("price"));
+                                product.setProductionDate(resultSet.getDate("production_date"));
                                 products.add(product);
                             }
                             return products;
