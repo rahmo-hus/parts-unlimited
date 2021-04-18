@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "96f2643b-aeed-4b9c-9911-f2a5d47f4fba",
+		"name": "DISCOUNTS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all discounts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/discount/get-all-discounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"discount",
+						"get-all-discounts"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add product to discount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"serial\":46456\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/discount/add-to-discount/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"discount",
+						"add-to-discount",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new discount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"startDate\":\"2021-03-16\",\r\n    \"endDate\":\"2021-04-01\",\r\n    \"discountPercentage\":50\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/discount/save-discount",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"discount",
+						"save-discount"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

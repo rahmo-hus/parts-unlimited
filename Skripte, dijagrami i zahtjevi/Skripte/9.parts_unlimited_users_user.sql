@@ -1,0 +1,3 @@
+INSERT INTO users."user" (id, password, username) VALUES (2, '$2a$10$Abr7DgHaOy7HwFWb8XrD8elXlV34n8ypJD0zK3Evi5XK1ptyr9Lyu', 'sales');
+INSERT INTO users."user" (id, password, username) VALUES (3, '$2a$10$Q.HOMgS/DyyTOWmZuBZSM.7hW6FH3gmaeK3bwJDDbFgKFSdeMDpXK', 'warehouse');
+INSERT INTO users."user" (id, password, username) VALUES (4, '$2a$10$7KwTWka8h9A5/rP8JirLfuv90j1dW2LAQSIj0mRF0c1on/QoiNVV6', 'customer');

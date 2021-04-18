@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.brand</OriginalElement>
+  <nodes>
+    <node x="183.0" y="135.0">75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car</node>
+    <node x="0.0" y="135.0">75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.part</node>
+    <node x="106.75" y="296.0">75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car_part</node>
+    <node x="200.0" y="0.0">75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.brand</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car" target="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.brand">
+      <point x="0.0" y="-55.5" />
+      <point x="0.0" y="42.5" />
+    </edge>
+    <edge source="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car_part" target="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car">
+      <point x="28.25" y="-42.0" />
+      <point x="191.5" y="271.0" />
+      <point x="245.0" y="271.0" />
+      <point x="0.0" y="55.5" />
+    </edge>
+    <edge source="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.car_part" target="75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.part">
+      <point x="-28.25" y="-42.0" />
+      <point x="135.0" y="271.0" />
+      <point x="81.5" y="271.0" />
+      <point x="0.0" y="55.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="153.5" y="190.0" />
+  <SelectedNodes>
+    <node>75125092-f4eb-4c4b-8367-b450bb170144.TABLE:parts_unlimited.public.brand</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+

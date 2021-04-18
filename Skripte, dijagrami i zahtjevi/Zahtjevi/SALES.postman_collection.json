@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "0cfe29a4-d44e-4768-b119-7c4fe7f797ce",
+		"name": "SALES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"sales\",\r\n    \"password\":\"prodaja\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all products",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/products/get-all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"get-all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update product price",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"price\":250.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/update/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"update",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"serial\":4645,\r\n    \"price\":1000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/products/add-product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"products",
+						"add-product"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove product",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWxlcyIsImlhdCI6MTYxODc0MTY3NiwiZXhwIjoxNjE4ODI4MDc2fQ.ECM810A1H2SYgoWaLN5PAX6X8C6mi4JfDEaAVJPfLmADU9tMEcOCNKN4K26iwX-jZYXwiUfBWN5GKzMIZKU_-g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/parts/delete/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"parts",
+						"delete",
+						"2"
+					],
+					"query": [
+						{
+							"key": "Authorization",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
