@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.repository;
+package net.croz.unlimited.parts.repository.entities;
 
 import java.util.List;
 

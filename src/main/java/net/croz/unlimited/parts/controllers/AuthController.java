@@ -2,8 +2,8 @@ package net.croz.unlimited.parts.controllers;
 
 import net.croz.unlimited.parts.payload.request.LoginRequest;
 import net.croz.unlimited.parts.payload.response.JwtResponse;
-import net.croz.unlimited.parts.repository.RoleRepository;
-import net.croz.unlimited.parts.repository.UserRepository;
+import net.croz.unlimited.parts.repository.users.RoleRepository;
+import net.croz.unlimited.parts.repository.users.UserRepository;
 import net.croz.unlimited.parts.security.jwt.JwtUtils;
 import net.croz.unlimited.parts.security.services.user.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;

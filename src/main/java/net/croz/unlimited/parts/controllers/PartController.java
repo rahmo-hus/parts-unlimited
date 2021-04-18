@@ -9,8 +9,8 @@ import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.entities.Car;
 import net.croz.unlimited.parts.models.entities.Part;
 import net.croz.unlimited.parts.payload.response.MessageResponse;
-import net.croz.unlimited.parts.repository.CarRepository;
-import net.croz.unlimited.parts.repository.PartRepository;
+import net.croz.unlimited.parts.repository.entities.CarRepository;
+import net.croz.unlimited.parts.repository.entities.PartRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +25,12 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/parts")
 public class PartController {
+
     @Autowired
     PartRepository partRepository;
 
     @Autowired
     CarRepository carRepository;
-
 
     private static final Logger logger = LoggerFactory.getLogger(PartController.class);
 
@@ -41,7 +41,7 @@ public class PartController {
         response.setErrorCode(exception instanceof  NoSuchElementFoundException ?"NOT_FOUND" : "DUPLICATE_ITEM");
         response.setErrorMessage(exception.getMessage());
         response.setTimestamp(LocalDateTime.now());
-        //logger.error("Element not found: {}",exception.getMessage());
+        logger.error(exception.getMessage());
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.NOT_FOUND);
     }
 
@@ -61,32 +61,28 @@ public class PartController {
     @GetMapping("/get-all-parts")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public List<Part> getAllParts(){
-        var parts = partRepository.findAll();
-        return parts;
+        return partRepository.findAll();
     }
 
     @GetMapping("/get-part/{serial}")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public Part getPartBySerial(@PathVariable(value = "serial") Long serial){
-        var requiredPart = partRepository.findBySerial(serial)
+        return partRepository.findBySerial(serial)
                 .orElseThrow(()->new NoSuchElementFoundException("No such element with serial code "+serial));
-        return requiredPart;
     }
 
     @GetMapping("/get-parts/{date}")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public List<Part> getPartByProductionDate(@PathVariable(value = "date")
                                             @DateTimeFormat(pattern = "yyyy-MM-dd") Date date){
-        var requiredParts = partRepository.findAllByProductionDate(date);
-        return requiredParts;
+        return partRepository.findAllByProductionDate(date);
     }
 
     @GetMapping("/get-part-by/{brandName}/{carName}")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public List<Part> getPartByBrandAndCarName(@PathVariable(value="carName") String carName,
                                                @PathVariable(value = "brandName") String brandName){
-        var requiredParts = partRepository.findByCarsNameAndCarsBrandName(carName, brandName);
-        return requiredParts;
+        return partRepository.findByCarsNameAndCarsBrandName(carName, brandName);
     }
 
     @GetMapping("/get-part-count")
@@ -107,7 +103,6 @@ public class PartController {
     @PreAuthorize("hasRole('WAREHOUSE')")
     public MessageResponse deletePart(@PathVariable(value = "id") Long id){
         var part = partRepository.findById(id).orElseThrow(()-> new NoSuchElementFoundException("No element with Id "+id));
-        Map<String, Boolean> response = new HashMap<>();
         partRepository.delete(part);
         return new MessageResponse("Part successfully deleted");
     }

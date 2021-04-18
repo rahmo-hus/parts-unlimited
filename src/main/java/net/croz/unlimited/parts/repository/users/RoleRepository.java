@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.repository;
+package net.croz.unlimited.parts.repository.users;
 
 import net.croz.unlimited.parts.models.users.ERole;
 import net.croz.unlimited.parts.models.users.Role;

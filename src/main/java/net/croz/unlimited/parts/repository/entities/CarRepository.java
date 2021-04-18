@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.repository;
+package net.croz.unlimited.parts.repository.entities;
 
 import net.croz.unlimited.parts.models.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;

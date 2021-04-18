@@ -1,8 +1,7 @@
 package net.croz.unlimited.parts.security.services.user;
 
 import net.croz.unlimited.parts.models.users.User;
-import net.croz.unlimited.parts.repository.UserRepository;
-import net.croz.unlimited.parts.security.services.user.UserDetailsImpl;
+import net.croz.unlimited.parts.repository.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
