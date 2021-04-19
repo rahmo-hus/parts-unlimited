@@ -13,7 +13,7 @@ import java.util.Set;
 @Table(	schema = "users", name = "user",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username")})
-public class User {
+public class    User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

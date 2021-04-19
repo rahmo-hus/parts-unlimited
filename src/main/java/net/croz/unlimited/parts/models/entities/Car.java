@@ -16,7 +16,7 @@ public class Car {
     private Long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
