@@ -43,14 +43,7 @@ public class PartController {
     @PostMapping("/add-part")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public Part createPart(@Valid @RequestBody Part part){
-        Part savedPart;
-        try {
-            savedPart = partService.save(part);
-        }
-        catch (Throwable e){
-            throw new DuplicateItemException("Error: Part with serial "+part.getSerial()+" already exists.");
-        }
-        return savedPart;
+        return partService.save(part);
     }
 
     @GetMapping("/get-all-parts")

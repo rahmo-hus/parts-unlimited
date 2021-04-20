@@ -1,6 +1,7 @@
 package net.croz.unlimited.parts.services.parts;
 
 import lombok.RequiredArgsConstructor;
+import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.warehouse.Brand;
 import net.croz.unlimited.parts.models.warehouse.Car;
@@ -39,7 +40,12 @@ public class PartServiceImpl implements PartService {
             else
                 carRepository.save(car);
         });
-        return partRepository.save(part);
+        try {
+            return partRepository.save(part);
+        }
+        catch (Throwable e){
+            throw new DuplicateItemException("Error: Part with serial "+part.getSerial()+" already exists.");
+        }
     }
 
     @Override

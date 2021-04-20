@@ -3,7 +3,9 @@ package net.croz.unlimited.parts.services.sales;
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.models.sales.Discount;
 import net.croz.unlimited.parts.repository.sales.DiscountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DiscountServiceImpl implements DiscountService{
 
-    private final DiscountRepository discountRepository;
+    final DiscountRepository discountRepository;
 
     @Override
     public List<Discount> getAll() {

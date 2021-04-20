@@ -4,6 +4,7 @@ import net.croz.unlimited.parts.models.sales.Discount;
 
 import java.util.List;
 
+
 public interface DiscountService {
     List<Discount> getAll();
     int saveProductToDiscount(Long serial, Long id);
