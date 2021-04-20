@@ -1,5 +1,5 @@
 # parts-unlimited
-Primjer Spring Boot aplikacija koja koristi slojevitu arhitekturu: sigurne RESTful endpointe te odvojene CRUD klijente. Sastoji se od tipične slojevite arhitekture: API pozivi procesiraju se od kontrolera do perzistentnog sloja kroz servisni sloj.
+Primjer Spring Bott aplikacije koja se sastoji od tipične slojevite arhitekture: API pozivi procesiraju se od kontrolera do perzistentnog sloja kroz servisni sloj.
 
 Za pristup svim endpointima potrebna je autentikacija, gdje korisnik nakon što se prijavi, server mu šalje JSON Web Token koji on unosi u zaglavlju svakog sljedećeg zahtjeva koji upućuje. Također, da bi korisnik bio u mogućnosti da pristupi određenim resursima, potrebno je da za pristup istima ima odgovarajuće privilegije.
 
