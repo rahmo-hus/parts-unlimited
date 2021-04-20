@@ -9,7 +9,7 @@ import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.warehouse.Part;
 import net.croz.unlimited.parts.payload.response.MessageResponse;
-import net.croz.unlimited.parts.services.PartService;
+import net.croz.unlimited.parts.services.parts.PartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;

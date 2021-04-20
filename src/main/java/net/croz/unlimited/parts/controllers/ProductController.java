@@ -1,11 +1,13 @@
 package net.croz.unlimited.parts.controllers;
 
+import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.sales.Product;
 import net.croz.unlimited.parts.payload.response.MessageResponse;
 import net.croz.unlimited.parts.repository.sales.ProductRepository;
+import net.croz.unlimited.parts.services.sales.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/products")
 public class ProductController {
 
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductService productService;
 
     @ExceptionHandler(NoSuchElementFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -46,28 +48,26 @@ public class ProductController {
     @GetMapping("/get-all")
     @PreAuthorize("hasRole('SALES') or hasRole('CUSTOMER')")
     public List<Product> getProducts(){
-        List<Product> products = productRepository.getProducts();
-        return products;
+        return productService.getAllProducts();
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('SALES')")
-    public ResponseEntity<MessageResponse> updatePrice(@PathVariable Long id,@Valid @RequestBody Map<String, Double> price){
-        productRepository.changePrice(id, price.get("price"));
-        return ResponseEntity.ok().body(new MessageResponse("Product updated successfully"));
+    public Product updatePrice(@PathVariable Long id,@Valid @RequestBody Map<String, Double> price){
+        return productService.changePrice(id, price.get("price"));
     }
 
     @PostMapping("/add-product")
     @PreAuthorize("hasRole('SALES')")
-    public ResponseEntity<MessageResponse> addProduct(@Valid @RequestBody Product product) {
-        int success = productRepository.save(product);
-       return success == 1 ? ResponseEntity.ok().body(new MessageResponse("Product saved successfully")) : ResponseEntity.status(404).body(new MessageResponse("Product not found"));
+    public ResponseEntity<?> addProduct(@Valid @RequestBody Product product) {
+        int success = productService.save(product);
+       return success == 1 ? ResponseEntity.ok().body(product) : ResponseEntity.status(404).body(new MessageResponse("Product not found"));
 
     }
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('SALES')")
     public ResponseEntity<MessageResponse> deleteProduct(@PathVariable(value = "id") Long id){
-        int success = productRepository.delete(id);
+        int success = productService.delete(id);
         return success ==1 ?ResponseEntity.ok().body(new MessageResponse("Product deleted successfully"))
                 :ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Delete error:Product "+id+" does not exist"));
     }

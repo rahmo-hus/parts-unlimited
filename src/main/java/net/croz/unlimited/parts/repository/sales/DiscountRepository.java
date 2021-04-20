@@ -60,7 +60,7 @@ public class DiscountRepository {
     @Transactional
     public List<Discount> findAll(){
         List<Discount> discountList = jdbcTemplate.query(POSTGRES_FIND_ALL, new BeanPropertyRowMapper<>(Discount.class));
-        discountList.stream().forEach(discount ->{
+        discountList.forEach(discount ->{
             discount.setProducts(
                     jdbcTemplate.execute(POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID, new PreparedStatementCallback<>() {
                         @Override

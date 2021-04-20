@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.services;
+package net.croz.unlimited.parts.services.parts;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
@@ -8,6 +8,7 @@ import net.croz.unlimited.parts.models.warehouse.Part;
 import net.croz.unlimited.parts.repository.warehouse.BrandRepository;
 import net.croz.unlimited.parts.repository.warehouse.CarRepository;
 import net.croz.unlimited.parts.repository.warehouse.PartRepository;
+import net.croz.unlimited.parts.services.parts.PartService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class PartServiceImpl implements PartService{
+public class PartServiceImpl implements PartService {
 
     private final PartRepository partRepository;
     private final CarRepository carRepository;

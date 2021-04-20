@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.services;
+package net.croz.unlimited.parts.services.parts;
 
 import net.croz.unlimited.parts.models.warehouse.Part;
 

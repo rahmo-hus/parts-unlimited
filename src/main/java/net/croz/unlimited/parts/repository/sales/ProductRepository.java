@@ -5,12 +5,13 @@ import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.models.sales.Product;
 import net.croz.unlimited.parts.repository.warehouse.PartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
+import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.*;
 import java.util.List;
 
 @Repository
@@ -22,6 +23,7 @@ public class ProductRepository{
             "FROM sales.product INNER JOIN part p ON sales.product.serial=p.serial";
     private static final String POSTGRES_UPDATE = "UPDATE sales.product SET price=? WHERE ID=?";
     private static final String POSTGRES_DELETE = "DELETE FROM sales.product WHERE id=?";
+    private static final String POSTGRES_FIND_BY_ID="SELECT * from sales.product WHERE id=?";
 
     @Autowired
     PartRepository partRepository;
@@ -31,22 +33,17 @@ public class ProductRepository{
 
     @Transactional
     public int save(Product product){
-        Integer added;
-             added = jdbcTemplate.execute(POSTGRES_INSERT, (PreparedStatementCallback<Integer>) ps -> {
-                 ps.setLong(1, product.getSerial());
-                 ps.setDouble(2, product.getPrice());
-                 int success;
-                 try {
-                     success = ps.executeUpdate();
-                 }
-                 catch (Throwable e){
-                     throw new DuplicateItemException("Product with serial "+product.getSerial()+" already exists.");
-                 }
-                 if(success == 0) throw new NoSuchElementFoundException("Cannot add product. There is no part with serial "+product.getSerial());
-                 return success;
-             });
-             return  added;
-
+        final PreparedStatementCreator preparedStatementCreator = con -> {
+            final PreparedStatement preparedStatement = con
+                    .prepareStatement(POSTGRES_INSERT, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setLong(1, product.getSerial());
+            preparedStatement.setDouble(2, product.getPrice());
+            return preparedStatement;
+        };
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int affectedRows=jdbcTemplate.update(preparedStatementCreator, keyHolder);
+        product.setId(keyHolder.getKey().longValue());
+        return affectedRows;
     }
 
     @Transactional
@@ -67,12 +64,16 @@ public class ProductRepository{
     }
 
     @Transactional
-    public int changePrice(Long id, Double price){
-        Integer affectedRows = jdbcTemplate.execute(POSTGRES_UPDATE, (PreparedStatementCallback<Integer>) ps -> {
-            ps.setDouble(1, price);
-            ps.setLong(2, id);
-            return ps.executeUpdate();
-        });
-        return affectedRows;
+    public Product changePrice(Long id, Double price){
+        final PreparedStatementCreator preparedStatementCreator = connection ->{
+            final PreparedStatement preparedStatement = connection.prepareStatement(POSTGRES_UPDATE, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setDouble(1, price);
+            preparedStatement.setLong(2, id);
+            return preparedStatement;
+        };
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int affectedRows = jdbcTemplate.update(preparedStatementCreator, keyHolder);
+        List<Product> products = jdbcTemplate.query(POSTGRES_FIND_BY_ID, new BeanPropertyRowMapper(Product.class));
+        return products.get(0);
     }
 }
