@@ -1,9 +1,8 @@
-package net.croz.unlimited.parts.models.entities;
+package net.croz.unlimited.parts.models.warehouse;
 
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.croz.unlimited.parts.models.entities.Brand;
 
 import javax.persistence.*;
 

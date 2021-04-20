@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.models.entities;
+package net.croz.unlimited.parts.models.warehouse;
 
 
 import lombok.Data;
