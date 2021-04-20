@@ -5,11 +5,11 @@ Za pristup svim endpointima potrebna je autentikacija, gdje korisnik nakon što 
 
 request method | request | headers | request body | response |
 ------------ | -------------| -------------| -------------| -------------|
-*Post* | http://localhost:8080/api/auth/login | | { "username":"warehouse","password":"skladiste"}
-*Post* | http://localhost:8080/api/parts/add-part | header: { Authorization: Bearer XXX.XXX.XXX } | Request body: Part
-*Get* | http://localhost:8080/api/parts/get-all-parts | header: { Authorization: Bearer XXX.XXX.XXX } | 
-*Get* | http://localhost:8080/api/parts/get-part/{serial} | header:  { Authorization: Bearer XXX.XXX.XXX } |
-*Get* | http://localhost:8080/api/parts/get-parts/{date} |  header:  { Authorization: Bearer XXX.XXX.XXX } |
-*Get* | http://localhost:8080/api/parts/get-part-by/Audi/80 | header:  { Authorization: Bearer XXX.XXX.XXX } |
-*Delete* | http://localhost:8080/api/parts/delete-part/{id} | header:  { Authorization: Bearer XXX.XXX.XXX } |
-*Get* | http://localhost:8080/api/parts/get-part-count |  header:  { Authorization: Bearer XXX.XXX.XXX } |
+*Post* | http://localhost:8080/api/auth/login | | { "username":"warehouse","password":"skladiste"} |
+*Post* | http://localhost:8080/api/parts/add-part | header: { Authorization: Bearer XXX.XXX.XXX } | Request body: Part|
+*Get* | http://localhost:8080/api/parts/get-all-parts | header: { Authorization: Bearer XXX.XXX.XXX } | |
+*Get* | http://localhost:8080/api/parts/get-part/{serial} | header:  { Authorization: Bearer XXX.XXX.XXX } | |
+*Get* | http://localhost:8080/api/parts/get-parts/{date} |  header:  { Authorization: Bearer XXX.XXX.XXX } | |
+*Get* | http://localhost:8080/api/parts/get-part-by/Audi/80 | header:  { Authorization: Bearer XXX.XXX.XXX } | |
+*Delete* | http://localhost:8080/api/parts/delete-part/{id} | header:  { Authorization: Bearer XXX.XXX.XXX } | |
+*Get* | http://localhost:8080/api/parts/get-part-count |  header:  { Authorization: Bearer XXX.XXX.XXX } | |
