@@ -1,8 +1,8 @@
-package net.croz.unlimited.parts.payload.request;
+package net.croz.unlimited.parts.dto;
 
 import javax.validation.constraints.NotBlank;
 
-public class LoginRequest {
+public class LoginRequestDTO {
     @NotBlank
     private String username;
 

@@ -1,11 +1,9 @@
 package net.croz.unlimited.parts.services.sales;
 
 import lombok.RequiredArgsConstructor;
-import net.croz.unlimited.parts.models.sales.Discount;
+import net.croz.unlimited.parts.model.sales.Discount;
 import net.croz.unlimited.parts.repository.sales.DiscountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

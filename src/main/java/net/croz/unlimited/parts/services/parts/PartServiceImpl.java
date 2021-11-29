@@ -3,13 +3,12 @@ package net.croz.unlimited.parts.services.parts;
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.models.warehouse.Brand;
-import net.croz.unlimited.parts.models.warehouse.Car;
-import net.croz.unlimited.parts.models.warehouse.Part;
+import net.croz.unlimited.parts.model.warehouse.Brand;
+import net.croz.unlimited.parts.model.warehouse.Car;
+import net.croz.unlimited.parts.model.warehouse.Part;
 import net.croz.unlimited.parts.repository.warehouse.BrandRepository;
 import net.croz.unlimited.parts.repository.warehouse.CarRepository;
 import net.croz.unlimited.parts.repository.warehouse.PartRepository;
-import net.croz.unlimited.parts.services.parts.PartService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,7 +88,7 @@ public class PartServiceImpl implements PartService {
     @Override
     @Transactional
     public void delete(Long id) {
-        var part = partRepository.findById(id).orElseThrow(()-> new NoSuchElementFoundException("No element with Id "+id));
+        Part part = partRepository.findById(id).orElseThrow(()-> new NoSuchElementFoundException("No element with Id "+id));
         partRepository.delete(part);
     }
 }

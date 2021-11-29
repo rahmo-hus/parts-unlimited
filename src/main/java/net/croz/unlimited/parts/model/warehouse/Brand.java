@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.models.warehouse;
+package net.croz.unlimited.parts.model.warehouse;
 
 
 import lombok.Data;
@@ -9,19 +9,13 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class Car {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    @ManyToOne()
-    @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brand;
-
-    public Car(String name, Brand brand){
+    public Brand(String name){
         this.name = name;
-        this.brand = brand;
     }
-
 }

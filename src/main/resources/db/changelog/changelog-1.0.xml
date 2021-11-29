@@ -5,8 +5,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
     <changeSet author="xcross" id="1234121221">
-        <sql dbms="postgresql" endDelimiter=";">
-            CREATE SCHEMA if not exists public
+        <sql dbms="postgresql">
+            CREATE SCHEMA if not exists public;
+            CREATE schema if not exists users;
+            CREATE schema if not exists sales;
         </sql>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-1">
@@ -20,7 +22,7 @@
         </createTable>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-2">
-        <createTable tableName="part" >
+        <createTable tableName="part">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="part_pkey"/>
             </column>
@@ -56,29 +58,35 @@
         </createTable>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-5">
-        <addUniqueConstraint  columnNames="serial" constraintName="uk6dotkott2kjsp8vw4d0m25fb7" tableName="part"/>
+        <addUniqueConstraint columnNames="serial" constraintName="uk6dotkott2kjsp8vw4d0m25fb7" tableName="part"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-6">
-        <addForeignKeyConstraint baseColumnNames="brand_id" baseTableName="car" constraintName="fkhfh9dx7w3ubf1co1vdev94g3f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="brand" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="brand_id" baseTableName="car"
+                                 constraintName="fkhfh9dx7w3ubf1co1vdev94g3f" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="brand" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-7">
-        <addForeignKeyConstraint baseColumnNames="car_id"   baseTableName="car_part" constraintName="yi6hmtau8kjmlse7jsgaqipl2h1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="car" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="car_id" baseTableName="car_part"
+                                 constraintName="yi6hmtau8kjmlse7jsgaqipl2h1" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="car" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769074486-8">
-        <addForeignKeyConstraint baseColumnNames="part_id" baseTableName="car_part" constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="part" validate="true"/>
-    </changeSet>
-    <changeSet author="xcross" id="71328978312">
-        <sql dbms="h2" endDelimiter=";">
-            CREATE SCHEMA users
-        </sql>
+        <addForeignKeyConstraint baseColumnNames="part_id" baseTableName="car_part"
+                                 constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6" deferrable="false"
+                                 initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="part" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769513756-1">
         <createTable tableName="user_roles" schemaName="users">
             <column name="user_id" type="BIGINT">
-                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true" primaryKeyName="user_roles_pkey"/>
+                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true"
+                             primaryKeyName="user_roles_pkey"/>
             </column>
             <column name="role_id" type="INTEGER">
-                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true" primaryKeyName="user_roles_pkey"/>
+                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true"
+                             primaryKeyName="user_roles_pkey"/>
             </column>
         </createTable>
     </changeSet>
@@ -94,7 +102,8 @@
     <changeSet author="xcross (generated)" id="1618769513756-3">
         <createTable tableName="roles" schemaName="users">
             <column name="id" type="INTEGER">
-                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true" primaryKeyName="roles_pkey"/>
+                <constraints nullable="false" referencedTableSchemaName="users" primaryKey="true"
+                             primaryKeyName="roles_pkey"/>
             </column>
             <column name="name" type="VARCHAR(20)">
                 <constraints referencedTableSchemaName="users" nullable="false"/>
@@ -102,16 +111,24 @@
         </createTable>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769513756-4">
-        <addUniqueConstraint schemaName="users" columnNames="username" constraintName="ukr43af9ap4edm43mmtq01oddj6" tableName="user"/>
+        <addUniqueConstraint schemaName="users" columnNames="username" constraintName="ukr43af9ap4edm43mmtq01oddj6"
+                             tableName="user"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769513756-5">
-        <addUniqueConstraint schemaName="users" columnNames="username" constraintName="uksb8bbouer5wak8vyiiy4pf2bx" tableName="user"/>
+        <addUniqueConstraint schemaName="users" columnNames="username" constraintName="uksb8bbouer5wak8vyiiy4pf2bx"
+                             tableName="user"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769513756-6">
-        <addForeignKeyConstraint baseTableSchemaName="users" referencedTableSchemaName="users" baseColumnNames="role_id" baseTableName="user_roles" constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="roles" validate="true"/>
+        <addForeignKeyConstraint baseTableSchemaName="users" referencedTableSchemaName="users" baseColumnNames="role_id"
+                                 baseTableName="user_roles" constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="roles" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769513756-7">
-        <addForeignKeyConstraint baseTableSchemaName="users" referencedTableSchemaName="users" baseColumnNames="user_id" baseTableName="user_roles" constraintName="fkhfh9dx7w3ubf1co1vdev94g3f" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="user" validate="true"/>
+        <addForeignKeyConstraint baseTableSchemaName="users" referencedTableSchemaName="users" baseColumnNames="user_id"
+                                 baseTableName="user_roles" constraintName="fkhfh9dx7w3ubf1co1vdev94g3f"
+                                 deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769797317-1">
         <createTable tableName="discount" schemaName="sales">
@@ -129,15 +146,11 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross" id="213231323122321">
-        <sql dbms="h2" endDelimiter=";">
-            CREATE SCHEMA if not exists sales
-        </sql>
-    </changeSet>
     <changeSet author="xcross (generated)" id="1618769797317-2">
         <createTable tableName="product" schemaName="sales">
             <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" referencedTableSchemaName="sales" primaryKey="true" primaryKeyName="product_pkey"/>
+                <constraints nullable="false" referencedTableSchemaName="sales" primaryKey="true"
+                             primaryKeyName="product_pkey"/>
             </column>
             <column name="serial" type="BIGINT">
                 <constraints referencedTableSchemaName="sales" nullable="false"/>
@@ -149,13 +162,19 @@
         </createTable>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769797317-3">
-        <addForeignKeyConstraint referencedTableSchemaName="sales" baseTableSchemaName="sales" baseColumnNames="discount_id" baseTableName="product" constraintName="product_discount_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="discount" validate="true"/>
+        <addForeignKeyConstraint referencedTableSchemaName="sales" baseTableSchemaName="sales"
+                                 baseColumnNames="discount_id" baseTableName="product"
+                                 constraintName="product_discount_id_fkey" deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 referencedTableName="discount" validate="true"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769797317-4">
-        <addUniqueConstraint schemaName="sales" columnNames="serial" constraintName="product_serial_key" tableName="product"/>
+        <addUniqueConstraint schemaName="sales" columnNames="serial" constraintName="product_serial_key"
+                             tableName="product"/>
     </changeSet>
     <changeSet author="xcross (generated)" id="1618769797317-5">
-        <addUniqueConstraint schemaName="sales" columnNames="serial" constraintName="uk4fp0iep4apkdxxggya35q11bq" tableName="product"/>
+        <addUniqueConstraint schemaName="sales" columnNames="serial" constraintName="uk4fp0iep4apkdxxggya35q11bq"
+                             tableName="product"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -1,7 +1,7 @@
 package net.croz.unlimited.parts.security.services.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.croz.unlimited.parts.models.users.User;
+import net.croz.unlimited.parts.model.users.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,14 +1,12 @@
-package net.croz.unlimited.parts.controllers;
+package net.croz.unlimited.parts.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.models.sales.Product;
+import net.croz.unlimited.parts.model.sales.Product;
 import net.croz.unlimited.parts.payload.response.MessageResponse;
-import net.croz.unlimited.parts.repository.sales.ProductRepository;
 import net.croz.unlimited.parts.services.sales.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

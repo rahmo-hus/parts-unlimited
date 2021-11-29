@@ -1,7 +1,7 @@
-package net.croz.unlimited.parts.controllers;
+package net.croz.unlimited.parts.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.croz.unlimited.parts.payload.request.LoginRequest;
+import net.croz.unlimited.parts.dto.LoginRequestDTO;
 import net.croz.unlimited.parts.security.services.auth.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDTO loginRequest) {
         return authService.authenticateUser(loginRequest);
     }
 

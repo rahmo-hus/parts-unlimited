@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.models.sales;
+package net.croz.unlimited.parts.model.sales;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

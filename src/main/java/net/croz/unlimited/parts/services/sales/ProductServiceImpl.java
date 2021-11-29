@@ -4,7 +4,7 @@ package net.croz.unlimited.parts.services.sales;
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.models.sales.Product;
+import net.croz.unlimited.parts.model.sales.Product;
 import net.croz.unlimited.parts.repository.sales.ProductRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.models.users;
+package net.croz.unlimited.parts.model.users;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

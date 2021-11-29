@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:12-alpine
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=parts_unlimited
+      - POSTGRES_PASSWORD=parts_unlimited
+      - POSTGRES_DB=parts_unlimited
+

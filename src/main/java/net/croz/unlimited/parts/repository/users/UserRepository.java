@@ -1,6 +1,6 @@
 package net.croz.unlimited.parts.repository.users;
 
-import net.croz.unlimited.parts.models.users.User;
+import net.croz.unlimited.parts.model.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

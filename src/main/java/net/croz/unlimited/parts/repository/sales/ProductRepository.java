@@ -1,6 +1,6 @@
 package net.croz.unlimited.parts.repository.sales;
 
-import net.croz.unlimited.parts.models.sales.Product;
+import net.croz.unlimited.parts.model.sales.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

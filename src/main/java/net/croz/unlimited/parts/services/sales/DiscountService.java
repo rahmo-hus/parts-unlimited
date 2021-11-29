@@ -1,6 +1,6 @@
 package net.croz.unlimited.parts.services.sales;
 
-import net.croz.unlimited.parts.models.sales.Discount;
+import net.croz.unlimited.parts.model.sales.Discount;
 
 import java.util.List;
 

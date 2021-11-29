@@ -1,10 +1,8 @@
 package net.croz.unlimited.parts.services.sales;
 
-import net.croz.unlimited.parts.models.sales.Product;
-import org.springframework.stereotype.Repository;
+import net.croz.unlimited.parts.model.sales.Product;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductService {
     List<Product> getAllProducts();

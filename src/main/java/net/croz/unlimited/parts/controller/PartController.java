@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.controllers;
+package net.croz.unlimited.parts.controller;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.models.warehouse.Part;
+import net.croz.unlimited.parts.model.warehouse.Part;
 import net.croz.unlimited.parts.payload.response.MessageResponse;
 import net.croz.unlimited.parts.services.parts.PartService;
 import org.slf4j.Logger;

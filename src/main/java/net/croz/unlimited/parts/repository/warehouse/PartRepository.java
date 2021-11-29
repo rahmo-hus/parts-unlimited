@@ -2,7 +2,7 @@ package net.croz.unlimited.parts.repository.warehouse;
 
 import java.util.List;
 
-import net.croz.unlimited.parts.models.warehouse.Part;
+import net.croz.unlimited.parts.model.warehouse.Part;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
