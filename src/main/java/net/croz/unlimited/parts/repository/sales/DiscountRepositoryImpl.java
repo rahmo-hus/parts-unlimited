@@ -20,7 +20,7 @@ import java.util.List;
 public class DiscountRepositoryImpl implements DiscountRepository {
 
     private static final String POSTGRES_SAVE_PRODUCT_TO_DISCOUNT ="UPDATE sales.product SET discount_id=?,\n" +
-            "        price= price - (SELECT discount_percentage FROM sales.discount WHERE id=?)*price/100\n" +
+            "price= price - (SELECT discount_percentage FROM sales.discount WHERE id=?)*price/100\n" +
             "WHERE (SELECT start_date FROM sales.discount WHERE id=?)< CURRENT_DATE\n" +
             "  AND (SELECT end_date FROM sales.discount WHERE id=?) >CURRENT_DATE\n" +
             "  AND serial=? AND discount_id IS NULL;";
@@ -64,7 +64,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
         List<Discount> discountList = jdbcTemplate.query(POSTGRES_FIND_ALL, new BeanPropertyRowMapper<>(Discount.class));
         discountList.forEach(discount ->{
             discount.setProducts(
-                    jdbcTemplate.execute(POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID, new PreparedStatementCallback<>() {
+                    jdbcTemplate.execute(POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID, new PreparedStatementCallback<List<Product>>() {
                         @Override
                         public List<Product> doInPreparedStatement(PreparedStatement ps) throws SQLException, DataAccessException {
                             ps.setLong(1, discount.getId());
