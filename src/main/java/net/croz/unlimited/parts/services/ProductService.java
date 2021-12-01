@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.services.sales;
+package net.croz.unlimited.parts.services;
 
 import net.croz.unlimited.parts.model.sales.Product;
 

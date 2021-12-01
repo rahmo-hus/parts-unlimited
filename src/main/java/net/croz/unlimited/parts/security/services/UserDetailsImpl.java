@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.security.services.user;
+package net.croz.unlimited.parts.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.croz.unlimited.parts.model.users.User;

@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.repository.sales;
+package net.croz.unlimited.parts.repository;
 
 import net.croz.unlimited.parts.model.sales.Discount;
 import org.springframework.stereotype.Repository;

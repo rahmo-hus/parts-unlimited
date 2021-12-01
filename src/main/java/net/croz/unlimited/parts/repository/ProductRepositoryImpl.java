@@ -1,8 +1,7 @@
-package net.croz.unlimited.parts.repository.sales;
+package net.croz.unlimited.parts.repository;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.model.sales.Product;
-import net.croz.unlimited.parts.repository.warehouse.PartRepository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCallback;

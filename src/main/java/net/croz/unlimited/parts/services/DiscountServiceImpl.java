@@ -1,8 +1,8 @@
-package net.croz.unlimited.parts.services.sales;
+package net.croz.unlimited.parts.services;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.model.sales.Discount;
-import net.croz.unlimited.parts.repository.sales.DiscountRepository;
+import net.croz.unlimited.parts.repository.DiscountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

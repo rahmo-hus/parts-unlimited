@@ -1,6 +1,6 @@
 package net.croz.unlimited.parts.security.jwt;
 
-import net.croz.unlimited.parts.security.services.user.UserDetailsServiceImpl;
+import net.croz.unlimited.parts.security.services.UserDetailsServiceImpl;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

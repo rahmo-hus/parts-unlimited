@@ -2,7 +2,7 @@ package net.croz.unlimited.parts.security;
 
 import net.croz.unlimited.parts.security.jwt.AuthEntryPointJwt;
 import net.croz.unlimited.parts.security.jwt.AuthTokenFilter;
-import net.croz.unlimited.parts.security.services.user.UserDetailsServiceImpl;
+import net.croz.unlimited.parts.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

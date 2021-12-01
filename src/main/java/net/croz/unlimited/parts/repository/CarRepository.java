@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.repository.warehouse;
+package net.croz.unlimited.parts.repository;
 
 import net.croz.unlimited.parts.model.warehouse.Car;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,8 +2,8 @@ package net.croz.unlimited.parts.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.model.sales.Discount;
-import net.croz.unlimited.parts.payload.response.MessageResponse;
-import net.croz.unlimited.parts.services.sales.DiscountService;
+import net.croz.unlimited.parts.dto.MessageResponse;
+import net.croz.unlimited.parts.services.DiscountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

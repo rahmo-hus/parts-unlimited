@@ -1,4 +1,4 @@
-package net.croz.unlimited.parts.services.parts;
+package net.croz.unlimited.parts.services;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
@@ -6,9 +6,9 @@ import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
 import net.croz.unlimited.parts.model.warehouse.Brand;
 import net.croz.unlimited.parts.model.warehouse.Car;
 import net.croz.unlimited.parts.model.warehouse.Part;
-import net.croz.unlimited.parts.repository.warehouse.BrandRepository;
-import net.croz.unlimited.parts.repository.warehouse.CarRepository;
-import net.croz.unlimited.parts.repository.warehouse.PartRepository;
+import net.croz.unlimited.parts.repository.BrandRepository;
+import net.croz.unlimited.parts.repository.CarRepository;
+import net.croz.unlimited.parts.repository.PartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
