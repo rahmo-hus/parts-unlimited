@@ -13,6 +13,7 @@ import ContactUs from "./contactUs"
 import CartFull from "./CartFull";
 import CarDetails from './CarsSpace/CarDetails';
 import WhishList from './WishList'
+import SignUp from "./SignUp";
 
 
 
@@ -44,6 +45,7 @@ class App extends Component {
                     <Route exact path="/sellacar" component={SellA_Car} />
                     <Route exact path="/contactus" component={ContactUs} />
                     <Route exact path="/products_cart" component={CartFull} />
+                    <Route exact path="/signup" component={SignUp}/>
                     <Route exact path="/whishlist" component={WhishList} />
                     <Route exact path="/cars/singlproduct" component={CarShop} />   
                     <Route exact path="/products/singlproduct" component={ProductsShop} />                       

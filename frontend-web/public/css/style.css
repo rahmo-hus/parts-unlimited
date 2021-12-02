@@ -2022,6 +2022,13 @@ img.mfp-img{
 .w-80{
 	width:80px;
 }
+
+.w-50-percent{
+	width: 50%;
+}
+.border-radius-1{
+	border-radius: 1%;
+}
 /*---- 39. Media query ----*/
 @media (max-width: 1200px){
 	.navbar-default .navbar-nav > li >a{

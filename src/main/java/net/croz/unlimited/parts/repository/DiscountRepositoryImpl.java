@@ -44,6 +44,8 @@ public class DiscountRepositoryImpl implements DiscountRepository {
         return affectedRows;
     }
 
+
+
     @Override
     @Transactional
     public int saveProductToDiscount(Long productSerial, Long discountId){
