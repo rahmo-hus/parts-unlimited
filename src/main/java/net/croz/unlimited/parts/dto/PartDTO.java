@@ -21,6 +21,6 @@ public class PartDTO {
     private Date productionDate;
 
     @JsonProperty("cars")
-    private List<CarDTO> cars;
+    private List<CarResponseDTO> cars;
 
 }

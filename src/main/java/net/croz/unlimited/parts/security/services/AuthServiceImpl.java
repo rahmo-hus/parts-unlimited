@@ -1,20 +1,18 @@
 package net.croz.unlimited.parts.security.services;
 
-import liquibase.pro.packaged.E;
-import liquibase.pro.packaged.R;
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.dto.LoginRequestDTO;
 import net.croz.unlimited.parts.dto.JwtResponseDTO;
 import net.croz.unlimited.parts.dto.MessageResponse;
 import net.croz.unlimited.parts.dto.RegistrationRequestDTO;
-import net.croz.unlimited.parts.model.users.ERole;
-import net.croz.unlimited.parts.model.users.Role;
-import net.croz.unlimited.parts.model.users.User;
+import net.croz.unlimited.parts.dto.UserDTO;
+import net.croz.unlimited.parts.model.ERole;
+import net.croz.unlimited.parts.model.Role;
+import net.croz.unlimited.parts.model.User;
 import net.croz.unlimited.parts.repository.RoleRepository;
 import net.croz.unlimited.parts.repository.UserRepository;
 import net.croz.unlimited.parts.security.jwt.JwtUtils;
-import org.hibernate.mapping.Array;
-import org.hibernate.mapping.Collection;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,8 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Singleton;
-import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final ModelMapper modelMapper;
     @Override
     public ResponseEntity<?> authenticateUser(LoginRequestDTO loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -86,5 +84,12 @@ public class AuthServiceImpl implements AuthService {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @Override
+    public UserDTO whoAmI(HttpServletRequest request) {
+        User user = userRepository.findByUsername(jwtUtils.getUserNameFromJwtToken(jwtUtils.resolveToken(request))).orElse(null);
+
+        return modelMapper.map(user, UserDTO.class);
     }
 }

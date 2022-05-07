@@ -1,11 +1,11 @@
 package net.croz.unlimited.parts.mapper;
 
 import net.croz.unlimited.parts.dto.BrandDTO;
-import net.croz.unlimited.parts.dto.CarDTO;
+import net.croz.unlimited.parts.dto.CarResponseDTO;
 import net.croz.unlimited.parts.dto.PartDTO;
-import net.croz.unlimited.parts.model.warehouse.Brand;
-import net.croz.unlimited.parts.model.warehouse.Car;
-import net.croz.unlimited.parts.model.warehouse.Part;
+import net.croz.unlimited.parts.model.Brand;
+import net.croz.unlimited.parts.model.Car;
+import net.croz.unlimited.parts.model.Part;
 
 @org.mapstruct.Mapper(componentModel = "spring")
 public interface Mapper {
@@ -14,9 +14,9 @@ public interface Mapper {
 
     Part partDTOToPart(PartDTO partDTO);
 
-    CarDTO carToCarDTO(Car car);
+    CarResponseDTO carToCarDTO(Car car);
 
-    Car carDTOToCar(CarDTO carDTO);
+    Car carDTOToCar(CarResponseDTO carResponseDTO);
 
     BrandDTO brandToBrandDTO(Brand brand);
 

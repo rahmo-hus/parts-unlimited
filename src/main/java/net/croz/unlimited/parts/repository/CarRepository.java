@@ -1,6 +1,6 @@
 package net.croz.unlimited.parts.repository;
 
-import net.croz.unlimited.parts.model.warehouse.Car;
+import net.croz.unlimited.parts.model.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

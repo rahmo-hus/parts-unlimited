@@ -1,7 +1,7 @@
 package net.croz.unlimited.parts.repository;
 
-import net.croz.unlimited.parts.model.sales.Discount;
-import net.croz.unlimited.parts.model.sales.Product;
+import net.croz.unlimited.parts.model.Discount;
+import net.croz.unlimited.parts.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -19,22 +19,22 @@ import java.util.List;
 @Repository
 public class DiscountRepositoryImpl implements DiscountRepository {
 
-    private static final String POSTGRES_SAVE_PRODUCT_TO_DISCOUNT ="UPDATE sales.product SET discount_id=?,\n" +
+    private static final String POSTGRES_SAVE_PRODUCT_TO_DISCOUNT = "UPDATE sales.product SET discount_id=?,\n" +
             "price= price - (SELECT discount_percentage FROM sales.discount WHERE id=?)*price/100\n" +
             "WHERE (SELECT start_date FROM sales.discount WHERE id=?)< CURRENT_DATE\n" +
             "  AND (SELECT end_date FROM sales.discount WHERE id=?) >CURRENT_DATE\n" +
             "  AND serial=? AND discount_id IS NULL;";
     private static final String POSTGRES_ADD_DISCOUNT = "INSERT INTO sales.discount(start_date, end_date, discount_percentage) VALUES (?,?,?)";
     private static final String POSTGRES_FIND_ALL = "SELECT * FROM sales.discount";
-    private static final String POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID ="SELECT sales.product.id, sales.product.serial, price, production_date FROM sales.product "
-    +"INNER JOIN part p ON p.serial=sales.product.serial WHERE sales.product.discount_id=?";
+    private static final String POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID = "SELECT sales.product.id, sales.product.serial, price, production_date FROM sales.product "
+            + "INNER JOIN part p ON p.serial=sales.product.serial WHERE sales.product.discount_id=?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     @Transactional
-    public int save(Discount discount){
+    public int save(Discount discount) {
         Integer affectedRows = jdbcTemplate.execute(POSTGRES_ADD_DISCOUNT, (PreparedStatementCallback<Integer>) ps -> {
             ps.setDate(1, discount.getStartDate());
             ps.setDate(2, discount.getEndDate());
@@ -45,14 +45,13 @@ public class DiscountRepositoryImpl implements DiscountRepository {
     }
 
 
-
     @Override
     @Transactional
-    public int saveProductToDiscount(Long productSerial, Long discountId){
+    public int saveProductToDiscount(Long productSerial, Long discountId) {
 
         Integer affectedRows = jdbcTemplate.execute(POSTGRES_SAVE_PRODUCT_TO_DISCOUNT, (PreparedStatementCallback<Integer>) ps -> {
-            for(int i=0; i<4; i++)
-                ps.setLong(i+1, discountId);
+            for (int i = 0; i < 4; i++)
+                ps.setLong(i + 1, discountId);
             ps.setLong(5, productSerial);
             Integer rows = ps.executeUpdate();
             return rows;
@@ -62,9 +61,9 @@ public class DiscountRepositoryImpl implements DiscountRepository {
 
     @Override
     @Transactional
-    public List<Discount> findAll(){
+    public List<Discount> findAll() {
         List<Discount> discountList = jdbcTemplate.query(POSTGRES_FIND_ALL, new BeanPropertyRowMapper<>(Discount.class));
-        discountList.forEach(discount ->{
+        discountList.forEach(discount -> {
             discount.setProducts(
                     jdbcTemplate.execute(POSTGRES_GET_PRODUCTS_BY_DISCOUNT_ID, new PreparedStatementCallback<List<Product>>() {
                         @Override
@@ -83,7 +82,7 @@ public class DiscountRepositoryImpl implements DiscountRepository {
                             return products;
                         }
                     }));
-        } );
+        });
         return discountList;
     }
 }

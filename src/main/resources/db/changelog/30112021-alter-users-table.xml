@@ -6,7 +6,7 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="add-additional-columns-to-users-table" author="rhuseinagic">
-        <addColumn tableName="user" schemaName="users" >
+        <addColumn tableName="user">
             <column name="first_name" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>

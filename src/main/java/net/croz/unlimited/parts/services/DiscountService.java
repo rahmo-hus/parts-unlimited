@@ -1,12 +1,27 @@
 package net.croz.unlimited.parts.services;
 
-import net.croz.unlimited.parts.model.sales.Discount;
+import lombok.RequiredArgsConstructor;
+import net.croz.unlimited.parts.model.Discount;
+import net.croz.unlimited.parts.repository.DiscountRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
+public class DiscountService {
 
-public interface DiscountService {
-    List<Discount> getAll();
-    int saveProductToDiscount(Long serial, Long id);
-    int save(Discount discount);
+    final DiscountRepository discountRepository;
+
+    public List<Discount> getAll() {
+        return discountRepository.findAll();
+    }
+
+    public int saveProductToDiscount(Long serial, Long id) {
+        return discountRepository.saveProductToDiscount(serial, id);
+    }
+
+    public int save(Discount discount) {
+        return discountRepository.save(discount);
+    }
 }

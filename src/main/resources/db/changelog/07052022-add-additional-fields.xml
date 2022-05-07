@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="add-additional-fields-to-tables" author="rhuseinagic">
+        <addColumn tableName="car" schemaName="public">
+            <column name="rating" type="varchar"/>
+            <column name="price" type="number"/>
+            <column name="condition" type="varchar"/>
+            <column name="body" type="varchar"/>
+            <column name="year" type="int"/>
+        </addColumn>
+        <addColumn tableName="part" schemaName="public">
+            <column name="name" type="varchar"/>
+            <column name="type" type="varchar"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

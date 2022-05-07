@@ -1,14 +1,11 @@
 package net.croz.unlimited.parts.controller;
 
-import java.time.LocalDateTime;
-import java.util.*;
-
 import lombok.RequiredArgsConstructor;
+import net.croz.unlimited.parts.dto.MessageResponse;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
-import net.croz.unlimited.parts.model.warehouse.Part;
-import net.croz.unlimited.parts.dto.MessageResponse;
+import net.croz.unlimited.parts.model.Part;
 import net.croz.unlimited.parts.services.PartService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +13,21 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +40,9 @@ public class PartController {
 
     @ExceptionHandler({NoSuchElementFoundException.class, DuplicateItemException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ExceptionResponse> handleNoSuchElementException(RuntimeException exception){
+    public ResponseEntity<ExceptionResponse> handleNoSuchElementException(RuntimeException exception) {
         ExceptionResponse response = new ExceptionResponse();
-        response.setErrorCode(exception instanceof  NoSuchElementFoundException ?"NOT_FOUND" : "DUPLICATE_ITEM");
+        response.setErrorCode(exception instanceof NoSuchElementFoundException ? "NOT_FOUND" : "DUPLICATE_ITEM");
         response.setErrorMessage(exception.getMessage());
         response.setTimestamp(LocalDateTime.now());
         logger.error(exception.getMessage());
@@ -42,34 +51,34 @@ public class PartController {
 
     @PostMapping("/add-part")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public Part createPart(@Valid @RequestBody Part part){
+    public Part createPart(@Valid @RequestBody Part part) {
         return partService.save(part);
     }
 
     @GetMapping("/get-all-parts")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public List<Part> getAllParts(){
+    public List<Part> getAllParts() {
         return partService.findAll();
     }
 
     @GetMapping("/get-part/{serial}")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public Part getPartBySerial(@PathVariable(value = "serial") Long serial){
+    public Part getPartBySerial(@PathVariable(value = "serial") Long serial) {
         return partService.findBySerial(serial)
-                .orElseThrow(()->new NoSuchElementFoundException("No such element with serial code "+serial));
+                .orElseThrow(() -> new NoSuchElementFoundException("No such element with serial code " + serial));
     }
 
     @GetMapping("/get-parts/{date}")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public List<Part> getPartByProductionDate(@PathVariable(value = "date")
-                                            @DateTimeFormat(pattern = "yyyy-MM-dd") Date date){
+                                              @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return partService.findAllByProductionDate(date);
     }
 
     @GetMapping("/get-part-by/{brandName}/{carName}")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public List<Part> getPartByBrandAndCarName(@PathVariable(value="carName") String carName,
-                                               @PathVariable(value = "brandName") String brandName){
+    public List<Part> getPartByBrandAndCarName(@PathVariable(value = "carName") String carName,
+                                               @PathVariable(value = "brandName") String brandName) {
         return partService.findByCarsNameAndCarsBrandName(carName, brandName);
     }
 
@@ -81,7 +90,7 @@ public class PartController {
 
     @DeleteMapping("/delete-part/{id}")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public MessageResponse deletePart(@PathVariable(value = "id") Long id){
+    public MessageResponse deletePart(@PathVariable(value = "id") Long id) {
         partService.delete(id);
         return new MessageResponse("Part successfully deleted");
     }

@@ -3,6 +3,8 @@ package net.croz.unlimited.parts.security;
 import net.croz.unlimited.parts.security.jwt.AuthEntryPointJwt;
 import net.croz.unlimited.parts.security.jwt.AuthTokenFilter;
 import net.croz.unlimited.parts.security.services.UserDetailsServiceImpl;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +38,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthTokenFilter authJwtTokenFilter(){return new AuthTokenFilter();}
+
+    @Bean
+    public ModelMapper modelMapper() {
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+
+        return modelMapper;
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
