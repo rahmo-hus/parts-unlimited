@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Basket from './Basket';
 import {connect} from "react-redux";
 import {logout, whoAmI} from "../actions/Auth";
-// import {turnOffHomefilter} from '../actions';
+ import {turnOffHomeFilter} from '../actions/Car';
 // import {connect} from "react-redux";
 
 class Header extends Component {
@@ -115,7 +115,7 @@ class Header extends Component {
                                                 >
                                                     <ul className="nav navbar-nav">
                                                         <li className="dropdown"
-                                                            onClick={() => this.props.turnOffHomefilter()}>
+                                                            onClick={() => turnOffHomeFilter()}>
                                                             <Link to={"/cars"} className="dropdown-toggle">
                                                                 CARS LISTING
                                                             </Link>
@@ -162,7 +162,6 @@ class Header extends Component {
 function mapStateToProps(state) {
     const {users, authentication} = state;
     const {user, loggedIn} = authentication;
-    console.log(state)
     return {
         user,
         loggedIn,

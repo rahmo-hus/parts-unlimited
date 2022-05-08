@@ -23,7 +23,7 @@ class BasketItem extends Component{
               </div>
             </div>
             <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 p-lg-0"
-                 // onClick={()=>this.props.removeFromBasket(this.props.item.product._id)}
+                 // onClick={()=>this.props.removeFromBasket(this.props.item.product.id)}
             >
               <i className="fa fa-remove remove-cart-item"/>
             </div>

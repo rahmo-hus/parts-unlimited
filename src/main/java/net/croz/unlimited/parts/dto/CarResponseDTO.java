@@ -13,4 +13,5 @@ public class CarResponseDTO {
     private String body;
     private Integer year;
     private String uri;
+    private String condition;
 }

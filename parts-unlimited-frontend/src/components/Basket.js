@@ -12,7 +12,7 @@ class Basket extends Component {
   }
   renderItem(item) {
      return(
-        <BasketItem key={item.product._id} item={item}/>
+        <BasketItem key={item.product.id} item={item}/>
      );
   }
 
