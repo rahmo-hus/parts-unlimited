@@ -41,9 +41,7 @@ public class DiscountController {
     @PostMapping("/save-discount")
     @PreAuthorize("hasRole('SALES')")
     public ResponseEntity addDiscount(@RequestBody Discount discount) {
-        int d = discountService.save(discount);
-        return d != 0 ? ResponseEntity.status(HttpStatus.OK).body(new MessageResponse("Discount added successfully"))
-                : ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse("Unable to add discount"));
+        return ResponseEntity.ok(discountService.save(discount));
     }
 
 

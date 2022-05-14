@@ -3,13 +3,21 @@ package net.croz.unlimited.parts.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.croz.unlimited.parts.dto.BrandDTO;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "car")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,14 +27,19 @@ public class Car {
     private Double price;
     private String body;
     private Integer year;
-
+    private String description;
+    private String condition;
+    private String model;
+    private String fuel;
+    private Integer door;
+    private String transmission;
+    private String color;
+    private String mileage;
+    private String features;
     @ManyToOne()
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
-
-    public Car(String name, Brand brand){
-        this.name = name;
-        this.brand = brand;
-    }
+    @OneToMany(mappedBy = "car")
+    private List<Artifact> artifacts;
 
 }

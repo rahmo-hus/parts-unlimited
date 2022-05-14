@@ -20,25 +20,25 @@ class CarItemCard extends Component{
             this.props.addToWishList(car);
             this.setState({isInWishList:true});
         }
-        else{  
+        else{
             this.props.removeFromWishList(car);
             this.setState({isInWishList:false});
-            
+
         }
     }
     componentDidMount(){
         var car= this.props.car;
-        
+
         if(this.props.wishlistproducts.filter(function(e){return e.id === car.id}).length===1){
             this.setState({isInWishList:true})
         }
     }
     mouseHover(event){
-        this.setState({isHovered:true});  
+        this.setState({isHovered:true});
     }
 
     mouseUnHover(event){
-        this.setState({isHovered:false});  
+        this.setState({isHovered:false});
     }
 
 
@@ -58,7 +58,7 @@ class CarItemCard extends Component{
             <div className="col-sm-12 col-md-6 col-lg-6">
             <div className="product-item hover-img">
                 <a className="product-img">
-                    <img src={`${process.env.PUBLIC_URL}/images/${car.imageName}`} alt="" />
+                    <img src={car.images[0]} alt="" />
                 </a>
                 <div className="product-caption">
                     <h4 className="product-name">
@@ -72,26 +72,26 @@ class CarItemCard extends Component{
                     <li>
                     <i className="fa fa-clock-o" />{car.year}
                     </li>
-                    
-                    <li onClick={()=>this.props.fetchSingleCar(car)}>
+
+                    <li>
                         <Link to={`/cars/singleproduct/${car.id}`}>
                         <i className="fa fa-search" />View
                         </Link>
                     </li>
-                     
+
                     <li onMouseEnter={this.mouseHover.bind(this)} onMouseLeave={this.mouseUnHover.bind(this)}>
-                            <i id={JSON.stringify(car)} className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"} 
-                            style={heartStyle} 
-                            onClick={this.ToggleCarWishlist.bind(this)}      
+                            <i id={JSON.stringify(car)} className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"}
+                            style={heartStyle}
+                            onClick={this.ToggleCarWishlist.bind(this)}
                             />WishList
                     </li>
-                                     
-                </ul>   
+
+                </ul>
             </div>
         </div>
 
         );
-    } 
+    }
 
 }
 

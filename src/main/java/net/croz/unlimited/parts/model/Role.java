@@ -2,6 +2,7 @@ package net.croz.unlimited.parts.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -17,4 +18,8 @@ public class Role {
     @Column(length = 20)
     private ERole name;
 
+    @Override
+    public String toString() {
+        return name.name();
+    }
 }

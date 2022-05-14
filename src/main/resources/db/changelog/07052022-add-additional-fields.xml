@@ -6,17 +6,37 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <changeSet id="add-additional-fields-to-tables" author="rhuseinagic">
+        <createTable tableName="artifact">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="car_id" type="bigint"/>
+            <column name="uri" type="text"/>
+        </createTable>
         <addColumn tableName="car" schemaName="public">
             <column name="rating" type="varchar"/>
             <column name="price" type="number"/>
+            <column name="description" type="varchar"/>
             <column name="condition" type="varchar"/>
             <column name="body" type="varchar"/>
             <column name="year" type="int"/>
+            <column name="model" type="varchar"/>
+            <column name="door" type="int"/>
+            <column name="fuel" type="varchar"/>
+            <column name="transmission" type="varchar"/>
+            <column name="color" type="varchar"/>
+            <column name="mileage" type="varchar"/>
+            <column name="features" type="varchar"/>
         </addColumn>
         <addColumn tableName="part" schemaName="public">
             <column name="name" type="varchar"/>
             <column name="type" type="varchar"/>
         </addColumn>
+        <addForeignKeyConstraint baseTableName="artifact"
+                                 baseColumnNames="car_id"
+                                 onDelete="CASCADE"
+                                 constraintName="artifact_fkey"
+                                 referencedTableName="car"
+                                 referencedColumnNames="id"/>
     </changeSet>
-
 </databaseChangeLog>

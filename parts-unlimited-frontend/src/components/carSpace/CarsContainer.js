@@ -23,7 +23,7 @@ class CarsContainer extends Component {
             make: '',
             model: '',
             year: '',
-            transition: '',
+            transmission: '',
             priceRange: '$60,000 - $130,000'
         };
         this.setCarCondition = this.setCarCondition.bind(this);
@@ -37,11 +37,11 @@ class CarsContainer extends Component {
     buttonSearchClicked() {
 
         if (this.state !== null) {
-            var { condition, body, make, model, year, transition, priceRange } = this.state;
+            var { condition, body, make, model, year, transmission, priceRange } = this.state;
             var filter = {};
             priceRange = $("#priceslider").val();
             
-            filter = { condition, body, make, model, year, transition, priceRange };
+            filter = { condition, body, make, model, year, transmission, priceRange };
             this.props.fetchFilteredCars(filter);
 
             this.setState({priceRange});
@@ -66,7 +66,7 @@ class CarsContainer extends Component {
         this.setState({ year: event.target.id });
     }
     setCarTransition(event) {
-        this.setState({ transition: event.target.id });
+        this.setState({ transmission: event.target.id });
     }
 
     setActivePage(activePage) {
@@ -93,7 +93,7 @@ class CarsContainer extends Component {
         var {buttonSearchClicked, pageSize, activePage, displayType} = this.state;
         var {fetchedCars, carsList, homefilterActivated }=this.props;
         var cars = fetchedCars && fetchedCars.length !== 0 ? fetchedCars : carsList;
-        
+        console.log(fetchedCars)
         /**this condition is if the user search for something from the  search button in car cntainer and no results are found 
          * or enters to car listing throught the home search button and no results found */
         if (fetchedCars && fetchedCars.length === 0 && (buttonSearchClicked  || homefilterActivated)) {
@@ -112,7 +112,7 @@ class CarsContainer extends Component {
     render() {
         var {fetchedCars, carsList, filters, homefilterActivated}= this.props;
         var {pageSize, buttonSearchClicked}= this.state;
-        const { condition, body, make, year, transition, priceRange } = filters;
+        const { condition, body, make, year, transmission, priceRange } = filters;
         var cars = fetchedCars && fetchedCars.length !== 0 ? fetchedCars : carsList;
         /**cars list will be empty if a search returns no result */
         if(fetchedCars && fetchedCars.length === 0 && buttonSearchClicked) cars= {} ;
@@ -207,7 +207,7 @@ class CarsContainer extends Component {
                             <div className="select-wrapper m-b-lg-15">
                                 <div className="dropdown">
                                     <button className="dropdown-toggle form-item" type="button" id="dropdownMenu6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {filters !== undefined && transition !== undefined && transition !== '' ? transition.toUpperCase() : 'Tranmission'}
+                                        {filters !== undefined && transmission !== undefined && transmission !== '' ? transmission.toUpperCase() : 'Tranmission'}
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu6">
                                         <li id="" onClick={this.setCarTransition}>Any Type</li>
@@ -319,8 +319,8 @@ class CarsContainer extends Component {
 }
 /**fetchedCars is the reducer state for the cars fetched from the API ,
  *  and homefilterActivated is to know if the user entred this page throught the home filter or not */
-function mapStateToProps({fetchFilteredCars, turnOffHomeFilter}) {
-    return { fetchFilteredCars, turnOffHomeFilter};
+function mapStateToProps({fetchedCars, turnOffHomeFilter}) {
+    return {fetchedCars, turnOffHomeFilter};
 }
 
 export default connect(mapStateToProps, { fetchFilteredCars, turnOffHomeFilter })(CarsContainer);

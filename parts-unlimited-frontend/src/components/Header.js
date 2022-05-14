@@ -117,14 +117,22 @@ class Header extends Component {
                                                         <li className="dropdown"
                                                             onClick={() => turnOffHomeFilter()}>
                                                             <Link to={"/cars"} className="dropdown-toggle">
-                                                                CARS LISTING
+                                                                CARS
                                                             </Link>
                                                         </li>
                                                         <li className="dropdown">
                                                             <Link to={"/products"} className="dropdown-toggle">
-                                                                PARTS LISTING
+                                                                PARTS
                                                             </Link>
                                                         </li>
+                                                        {
+                                                            user && user.roles[0] === 'ROLE_SALES' &&
+                                                            <li className="dropdown">
+                                                                <Link to={'cars/sell'} className="dropdown-toggle">
+                                                                    SELL A CAR
+                                                                </Link>
+                                                            </li>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>

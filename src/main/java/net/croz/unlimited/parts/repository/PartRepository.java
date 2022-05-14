@@ -14,4 +14,5 @@ public interface PartRepository extends JpaRepository<Part, Long> {
     Optional<Part> findBySerial(Long serial);
     List<Part> findAllByProductionDate(Date date);
     List<Part> findByCarsNameAndCarsBrandName(String carName, String brandName);
+    List<Part> findAllByCategory(String category);
 }

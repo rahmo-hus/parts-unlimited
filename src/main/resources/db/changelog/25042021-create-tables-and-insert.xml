@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet author="xcross (generated)" id="1618769074486-1">
+    <changeSet author="rhuseinagic" id="1618769074486-1">
         <createTable tableName="car_part" >
             <column name="part_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="car_part_pkey"/>
@@ -14,20 +14,24 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-2">
+    <changeSet author="rhuseinagic" id="1618769074486-2">
         <createTable tableName="part">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="part_pkey"/>
             </column>
-            <column name="serial" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="production_date" type="date">
-                <constraints nullable="false"/>
-            </column>
+            <column name="serial" type="BIGINT"/>
+            <column name="price" type="FLOAT8"/>
+            <column name="production_date" type="date"/>
+            <column name="description" type="varchar"/>
+            <column name="brand" type="varchar"/>
+            <column name="code" type="varchar"/>
+            <column name="category" type="varchar"/>
+            <column name="manufacturer" type="varchar"/>
+            <column name="image" type="varchar"/>
+            <column name="discount_id" type="bigint"/>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-3">
+    <changeSet author="rhuseinagic" id="1618769074486-3">
         <createTable tableName="brand" >
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="brand_pkey"/>
@@ -37,7 +41,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-4">
+    <changeSet author="rhuseinagic" id="1618769074486-4">
         <createTable tableName="car" >
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="car_pkey"/>
@@ -50,28 +54,28 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-5">
+    <changeSet author="rhuseinagic" id="1618769074486-5">
         <addUniqueConstraint columnNames="serial" constraintName="uk6dotkott2kjsp8vw4d0m25fb7" tableName="part"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-6">
+    <changeSet author="rhuseinagic" id="1618769074486-6">
         <addForeignKeyConstraint baseColumnNames="brand_id" baseTableName="car"
                                  constraintName="fkhfh9dx7w3ubf1co1vdev94g3f" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="brand" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-7">
+    <changeSet author="rhuseinagic" id="1618769074486-7">
         <addForeignKeyConstraint baseColumnNames="car_id" baseTableName="car_part"
                                  constraintName="yi6hmtau8kjmlse7jsgaqipl2h1" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="car" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769074486-8">
+    <changeSet author="rhuseinagic" id="1618769074486-8">
         <addForeignKeyConstraint baseColumnNames="part_id" baseTableName="car_part"
                                  constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6" deferrable="false"
                                  initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="part" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-1">
+    <changeSet author="rhuseinagic" id="1618769513756-1">
         <createTable tableName="user_roles" >
             <column name="user_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"
@@ -83,7 +87,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-2">
+    <changeSet author="rhuseinagic" id="1618769513756-2">
         <createTable tableName="user" >
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
@@ -92,7 +96,7 @@
             <column name="username" type="VARCHAR(20)"/>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-3">
+    <changeSet author="rhuseinagic" id="1618769513756-3">
         <createTable tableName="roles" >
             <column name="id" type="INTEGER">
                 <constraints nullable="false" primaryKey="true"
@@ -103,71 +107,41 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-4">
+    <changeSet author="rhuseinagic" id="1618769513756-4">
         <addUniqueConstraint  columnNames="username" constraintName="ukr43af9ap4edm43mmtq01oddj6"
                              tableName="user"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-5">
+    <changeSet author="rhuseinagic" id="1618769513756-5">
         <addUniqueConstraint  columnNames="username" constraintName="uksb8bbouer5wak8vyiiy4pf2bx"
                              tableName="user"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-6">
+    <changeSet author="rhuseinagic" id="1618769513756-6">
         <addForeignKeyConstraint  baseColumnNames="role_id"
                                  baseTableName="user_roles" constraintName="fkh8ciramu9cc9q3qcqiv4ue8a6"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="roles" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769513756-7">
+    <changeSet author="rhuseinagic" id="1618769513756-7">
         <addForeignKeyConstraint  baseColumnNames="user_id"
                                  baseTableName="user_roles" constraintName="fkhfh9dx7w3ubf1co1vdev94g3f"
                                  deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION"
                                  referencedColumnNames="id" referencedTableName="user" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769797317-1">
+    <changeSet author="rhuseinagic" id="1618769797317-1">
         <createTable tableName="discount" >
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="discount_pkey"/>
             </column>
-            <column name="start_date" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="end_date" type="date">
-                <constraints nullable="false"/>
-            </column>
-            <column name="discount_percentage" type="INTEGER">
-                <constraints nullable="false"/>
-            </column>
+            <column name="start_date" type="date"/>
+            <column name="end_date" type="date"/>
+            <column name="discount_percentage" type="INTEGER"/>
         </createTable>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769797317-2">
-        <createTable tableName="product" >
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"
-                             primaryKeyName="product_pkey"/>
-            </column>
-            <column name="serial" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column name="price" type="FLOAT8">
-                <constraints nullable="false"/>
-            </column>
-            <column name="discount_id" type="BIGINT"/>
-        </createTable>
-    </changeSet>
-    <changeSet author="xcross (generated)" id="1618769797317-3">
+    <changeSet author="rhuseinagic" id="1618769797317-3">
         <addForeignKeyConstraint 
-                                 baseColumnNames="discount_id" baseTableName="product"
-                                 constraintName="product_discount_id_fkey" deferrable="false" initiallyDeferred="false"
+                                 baseColumnNames="discount_id" baseTableName="part"
+                                 constraintName="part_discount_id_fkey" deferrable="false" initiallyDeferred="false"
                                  onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
                                  referencedTableName="discount" validate="true"/>
     </changeSet>
-    <changeSet author="xcross (generated)" id="1618769797317-4">
-        <addUniqueConstraint  columnNames="serial" constraintName="product_serial_key"
-                             tableName="product"/>
-    </changeSet>
-    <changeSet author="xcross (generated)" id="1618769797317-5">
-        <addUniqueConstraint  columnNames="serial" constraintName="uk4fp0iep4apkdxxggya35q11bq"
-                             tableName="product"/>
-    </changeSet>
-
 </databaseChangeLog>

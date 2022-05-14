@@ -21,7 +21,7 @@ public class DiscountService {
         return discountRepository.saveProductToDiscount(serial, id);
     }
 
-    public int save(Discount discount) {
+    public Discount save(Discount discount) {
         return discountRepository.save(discount);
     }
 }

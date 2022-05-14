@@ -110,7 +110,6 @@ function SignUp(props) {
 
 function mapStateToProps(state) {
     const { loggingIn } = state.authentication;
-    console.log(state)
     return {
         loggingIn
     };

@@ -37,7 +37,6 @@ class Header extends Component {
                                         <Link to={"/whishlist"}>
                                             <i className="fa fa-heart"/>
                                             <span className="badge">{this.props.whishlistproducts.length}</span>
-
                                         </Link>
                                     </li>
                                     <Basket/>

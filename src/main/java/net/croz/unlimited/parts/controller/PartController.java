@@ -2,6 +2,8 @@ package net.croz.unlimited.parts.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.croz.unlimited.parts.dto.MessageResponse;
+import net.croz.unlimited.parts.dto.PartRequest;
+import net.croz.unlimited.parts.dto.PartResponse;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.ExceptionResponse;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
@@ -13,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +23,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -31,13 +36,13 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/parts")
 public class PartController {
 
     private final PartService partService;
 
     private static final Logger logger = LoggerFactory.getLogger(PartController.class);
-
     @ExceptionHandler({NoSuchElementFoundException.class, DuplicateItemException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<ExceptionResponse> handleNoSuchElementException(RuntimeException exception) {
@@ -49,19 +54,30 @@ public class PartController {
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/add-part")
+    @GetMapping
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public Part createPart(@Valid @RequestBody Part part) {
-        return partService.save(part);
+    public ResponseEntity<List<PartResponse>> findAll() {
+        return ResponseEntity.ok(partService.findAll());
     }
 
-    @GetMapping("/get-all-parts")
+    @PostMapping("/save")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public List<Part> getAllParts() {
-        return partService.findAll();
+    public ResponseEntity<PartResponse> save(@Valid @RequestBody PartRequest partRequest) throws ParseException {
+        return ResponseEntity.ok(partService.save(partRequest));
     }
 
-    @GetMapping("/get-part/{serial}")
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<PartResponse>> getByCategory(@PathVariable String category){
+        return ResponseEntity.ok(partService.findAllByCategory(category));
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('WAREHOUSE')")
+    public ResponseEntity<PartResponse> getOne(@PathVariable Long id){
+        return ResponseEntity.ok(partService.getOne(id));
+    }
+
+    @GetMapping("/get/{serial}")
     @PreAuthorize("hasRole('WAREHOUSE')")
     public Part getPartBySerial(@PathVariable(value = "serial") Long serial) {
         return partService.findBySerial(serial)
@@ -70,7 +86,7 @@ public class PartController {
 
     @GetMapping("/get-parts/{date}")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public List<Part> getPartByProductionDate(@PathVariable(value = "date")
+    public List<Part> findAllByProductionDate(@PathVariable(value = "date")
                                               @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         return partService.findAllByProductionDate(date);
     }
@@ -88,11 +104,11 @@ public class PartController {
         return partService.getAllPartsByCarNameAndBrandName();
     }
 
-    @DeleteMapping("/delete-part/{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('WAREHOUSE')")
-    public MessageResponse deletePart(@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> deletePart(@PathVariable(value = "id") Long id) {
         partService.delete(id);
-        return new MessageResponse("Part successfully deleted");
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -5,12 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
 @NoArgsConstructor
 public class Discount {
     @Id
@@ -20,5 +23,6 @@ public class Discount {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
     private Integer discountPercentage;
-    List<Product> products = new ArrayList<>();
+    @OneToMany
+    List<Part> products = new ArrayList<>();
 }

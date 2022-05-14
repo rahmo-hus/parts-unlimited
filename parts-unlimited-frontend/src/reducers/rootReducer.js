@@ -7,6 +7,7 @@ import fetchedCarsReducer from "./fetchedCarsReducer";
 import filterReducer from "./filterReducer";
 import currentCarReducer from "./currentCarReducer";
 import fetchSingleCar from "./singleCarReducer"
+import brandReducer from "./brandReducer";
 
 const rootReducer = combineReducers({
     authentication,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
     fetchedCars: fetchedCarsReducer,
     homefilterActivated: filterReducer,
     singleCar: fetchSingleCar,
-    selectedCar: currentCarReducer
+    selectedCar: currentCarReducer,
+    brands: brandReducer
 });
 
 export default rootReducer;

@@ -68,8 +68,8 @@ class CarItemList extends Component{
                     </a>
                     </div>
                     <ul className="absolute-caption">
-                             <li onClick={()=>this.props.fetchSingleCar(car)}>
-                                <Link to={`/cars/singlproduct`}>
+                             <li onClick={()=>this.props.fetchSingleCar(car.id)}>
+                                <Link to={`/cars/singleproduct`}>
                                 <i className="fa fa-search" />View
                                 </Link>
                             </li>
@@ -118,4 +118,4 @@ class CarItemList extends Component{
     return { wishlistproducts};
 }
 
-export default connect(mapStateToProps,{ fetchSingleCar, addToWishList, removeFromWishList})(CarItemList) ;
+export default connect(mapStateToProps,{ addToWishList, removeFromWishList})(CarItemList) ;

@@ -1,8 +1,12 @@
 package net.croz.unlimited.parts.services;
 
 import lombok.RequiredArgsConstructor;
+import net.croz.unlimited.parts.dto.PartRequest;
+import net.croz.unlimited.parts.dto.PartResponse;
 import net.croz.unlimited.parts.exceptions.DuplicateItemException;
 import net.croz.unlimited.parts.exceptions.NoSuchElementFoundException;
+import net.croz.unlimited.parts.mapper.PartRequestToPartMapper;
+import net.croz.unlimited.parts.mapper.PartToPartResponseMapper;
 import net.croz.unlimited.parts.model.Brand;
 import net.croz.unlimited.parts.model.Car;
 import net.croz.unlimited.parts.model.Part;
@@ -12,6 +16,7 @@ import net.croz.unlimited.parts.repository.PartRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.*;
 
 @Service
@@ -21,34 +26,38 @@ public class PartService {
     private final PartRepository partRepository;
     private final CarRepository carRepository;
     private final BrandRepository brandRepository;
+    private final PartRequestToPartMapper partRequestToPartMapper;
+    private final PartToPartResponseMapper partToPartResponseMapper;
 
-    @Transactional(rollbackFor = Throwable.class)
-    public Part save(Part part) {
-        List<Car> cars = part.getCars();
-        cars.forEach(car -> {
-            Brand brand = car.getBrand();
-            Optional<Brand> existingBrand = brandRepository.findByName(brand.getName());
-            if(existingBrand.isPresent())
-                car.setBrand(existingBrand.get());
-            else
-                car.setBrand(brandRepository.save(brand));
-            Optional<Car> existingCar = carRepository.findByName(car.getName());
-            if(existingCar.isPresent())
-                car.setId(existingCar.get().getId());
-            else
-                carRepository.save(car);
-        });
-        try {
-            return partRepository.save(part);
-        }
-        catch (Throwable e){
-            throw new DuplicateItemException("Error: Part with serial "+part.getSerial()+" already exists.");
-        }
+    public PartResponse save(PartRequest partRequest) throws ParseException {
+        Part part = partRequestToPartMapper.convert(partRequest);
+        List<Car> cars = new ArrayList<>();
+        partRequest.getCarIds().forEach(id-> cars.add(carRepository.getOne(id)));
+        part.setCars(cars);
+
+        Part savedPart = partRepository.save(part);
+
+        return partToPartResponseMapper.convert(savedPart);
     }
 
-    @Transactional
-    public List<Part> findAll() {
-        return partRepository.findAll();
+    public List<PartResponse> findAll() {
+        List<Part> parts = partRepository.findAll();
+        List<PartResponse> partResponses = new ArrayList<>();
+        parts.forEach(p-> partResponses.add(partToPartResponseMapper.convert(p)));
+
+        return partResponses;
+    }
+
+    public List<PartResponse> findAllByCategory(String category){
+        List<Part> parts = partRepository.findAllByCategory(category);
+        List<PartResponse> partResponses = new ArrayList<>();
+        parts.forEach(p-> partResponses.add(partToPartResponseMapper.convert(p)));
+
+        return partResponses;
+    }
+
+    public PartResponse getOne(Long id){
+        return partToPartResponseMapper.convert(partRepository.getOne(id));
     }
 
     @Transactional

@@ -16,7 +16,6 @@ class CarShop extends Component {
                 <Routes>
                     <Route path="/"
                            element={<CarsContainer filters={this.props.filters} carsList={this.props.cars}/>}/>
-                    <Route exact path="/singlproduct" element={<CarDetails/>}/>
                 </Routes>
             </div>
         );

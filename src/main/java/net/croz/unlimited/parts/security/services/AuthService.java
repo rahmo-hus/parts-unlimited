@@ -10,6 +10,5 @@ import javax.servlet.http.HttpServletRequest;
 public interface AuthService {
     ResponseEntity<?> authenticateUser(LoginRequestDTO loginRequest);
     ResponseEntity<?> registerUser(RegistrationRequestDTO registrationRequestDTO);
-
     UserDTO whoAmI(HttpServletRequest request);
 }
