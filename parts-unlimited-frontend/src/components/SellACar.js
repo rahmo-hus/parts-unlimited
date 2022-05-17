@@ -21,7 +21,6 @@ const Sell = (props) => {
     const [images, setImages] = useState([]);
     const [features, setFeatures] = useState([]);
 
-
     const onFileChange = e => {
         for(var f of e.target.files){
             getBase64(f).then(res=>{
@@ -30,9 +29,26 @@ const Sell = (props) => {
         }
     }
 
+    const getBase64 = (file) =>{
+        return new Promise(resolve => {
+            let fileInfo;
+            let baseURL = "";
+            // Make new FileReader
+            let reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                // Make a fileInfo Object
+                console.log("Called", reader);
+                baseURL = reader.result;
+                resolve(baseURL);
+            };
+        });
+    }
+
     const onSubmit = e =>{
         e.preventDefault();
-        console.log('entered')
         props.saveCar({
             name,
             price,
@@ -55,24 +71,6 @@ const Sell = (props) => {
     useEffect(() => {
         props.fetchBrands();
     }, []);
-
-    const getBase64 = (file) =>{
-        return new Promise(resolve => {
-            let fileInfo;
-            let baseURL = "";
-            // Make new FileReader
-            let reader = new FileReader();
-
-            reader.readAsDataURL(file);
-
-            reader.onload = () => {
-                // Make a fileInfo Object
-                console.log("Called", reader);
-                baseURL = reader.result;
-                resolve(baseURL);
-            };
-        });
-    }
 
     return (
         <div className="wrap-body-inner">

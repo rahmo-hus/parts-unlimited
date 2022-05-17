@@ -55,9 +55,9 @@ class Header extends Component {
                                         </a>
                                     </li>
                                     <li className="cart-icon">
-                                        <Link to={"/whishlist"}>
+                                        <Link to={"/wishlist"}>
                                             <i className="fa fa-heart"/>
-                                            {/*<span className="badge">{this.props.whishlistproducts.length}</span>*/}
+                                            <span className="badge">{this.props.wishlistproducts.length}</span>
 
                                         </Link>
                                     </li>
@@ -133,6 +133,14 @@ class Header extends Component {
                                                                 </Link>
                                                             </li>
                                                         }
+                                                        {
+                                                            user && user.roles[0] === 'ROLE_SALES' &&
+                                                            <li className="dropdown">
+                                                                <Link to={'products/sell'} className="dropdown-toggle">
+                                                                    SELL A PART
+                                                                </Link>
+                                                            </li>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>
@@ -168,18 +176,15 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-    const {users, authentication} = state;
+    const {users, authentication, wishlistproducts} = state;
     const {user, loggedIn} = authentication;
     return {
         user,
         loggedIn,
-        users
+        users,
+        wishlistproducts
     };
 }
 
-// function mapStateToProps({whishlistproducts}) {
-//     return {whishlistproducts};
-// }
-//
 export default connect(mapStateToProps)(Header);
 

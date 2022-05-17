@@ -34,7 +34,7 @@ class ProductItemList extends Component {
 
     if (
       this.props.wishlistproducts.filter(function(e) {
-        return e._id === product._id;
+        return e.id === product.id;
       }).length === 1
     ) {
       this.setState({ isInWishList: true });
@@ -64,8 +64,8 @@ class ProductItemList extends Component {
           <div className="col-sm-6 col-md-5 col-lg-4">
             <a className="product-img">
               <img
-                src={`${process.env.PUBLIC_URL}/images/${product
-                  .imageName}`}
+                src={product
+                  .image}
                 style={{ width: "197.5px", height: "197.5px" }}
                 alt=""
               />
@@ -127,7 +127,7 @@ class ProductItemList extends Component {
                   />
                 </li>
                 <li onClick={()=>this.props.fetchSingleProduct(product)}>
-                  <Link to={`/products/singlproduct`}>
+                  <Link to={`/products/singleproduct/${product.id}`}>
                     <i className="fa fa-search" />
                   </Link>
                 </li>

@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
-// import { connect } from "react-redux";
-// import { removeFromBasket } from '../actions';
+import { connect } from "react-redux";
+import {removeFromBasket} from "../actions/Basket";
 
 class BasketItem extends Component{
     render(){
@@ -9,7 +9,10 @@ class BasketItem extends Component{
           <div className="row m-lg-0">
             <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 p-l-lg-0">
               <a className="product-img">
-                <img src={`${process.env.PUBLIC_URL}/images/${this.props.item.product.imageName}`} alt="" />
+                  {
+                      this.props.item.product.image ? <img src={this.props.item.product.image} alt="" /> :
+                          <img src={this.props.item.product.images[0]}/>
+                  }
               </a>
             </div>
             <div className="col-xs-7 col-sm-7 col-md-7 col-lg-7 p-lg-0">
@@ -23,7 +26,7 @@ class BasketItem extends Component{
               </div>
             </div>
             <div className="col-xs-1 col-sm-1 col-md-1 col-lg-1 p-lg-0"
-                 // onClick={()=>this.props.removeFromBasket(this.props.item.product.id)}
+                 onClick={()=>this.props.removeFromBasket(this.props.item.product.id)}
             >
               <i className="fa fa-remove remove-cart-item"/>
             </div>
@@ -32,8 +35,6 @@ class BasketItem extends Component{
      );
     }
     
-};
+}
 
-export default BasketItem;
-//
-// export default connect(null,{removeFromBasket})(BasketItem);
+export default connect(null,{removeFromBasket})(BasketItem);
