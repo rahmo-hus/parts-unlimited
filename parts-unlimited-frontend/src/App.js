@@ -10,6 +10,7 @@ import SellAPart from "./components/SellAPart";
 import ProductDetails from "./components/productsSpace/ProductDetails";
 import Wishlist from "./components/Wishlist";
 import CartFull from "./components/CartFull";
+import PurchaseProduct from "./components/PurchaseProduct";
 
 function App() {
     const [filters, setFilters] = useState({});
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/products/singleproduct/:id" element={<ProductDetails/>} exact />
                     <Route path="/wishlist" element={<Wishlist />} exact />
                     <Route path="/cart" element={<CartFull/>} />
+                    <Route path="/purchase" element={<PurchaseProduct/>} exact />
                 </Routes>
             </SharedLayout>
         </BrowserRouter>
