@@ -1,6 +1,7 @@
 package net.croz.unlimited.parts.controller;
 
 import lombok.RequiredArgsConstructor;
+import net.croz.unlimited.parts.dto.CarBasicResponse;
 import net.croz.unlimited.parts.dto.CarFilterDTO;
 import net.croz.unlimited.parts.dto.CarRequest;
 import net.croz.unlimited.parts.dto.CarResponse;
@@ -16,7 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -43,6 +47,15 @@ public class CarController {
     @PostMapping("/filter")
     public ResponseEntity<List<CarResponse>> filter(@RequestBody CarFilterDTO carFilterDTO){
         return ResponseEntity.ok(carService.filter(carFilterDTO));
+    }
+
+    @GetMapping("/basic")
+    public ResponseEntity<List<CarBasicResponse>> getBasic(){
+        List<CarResponse> carResponses = carService.findAll();
+        List<CarBasicResponse> map = new ArrayList<>();
+        carResponses.forEach(car->map.add(new CarBasicResponse(car.getId(), car.getName())));
+
+        return ResponseEntity.ok(map);
     }
 
     @GetMapping("/{id}")

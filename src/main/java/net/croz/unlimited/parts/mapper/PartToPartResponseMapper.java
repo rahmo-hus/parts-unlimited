@@ -21,8 +21,8 @@ public class PartToPartResponseMapper {
 
         PartResponse partResponse = new PartResponse();
         partResponse.setImage(part.getImage());
-        partResponse.setName(partResponse.getName());
-        partResponse.setType(partResponse.getType());
+        partResponse.setName(part.getName());
+        partResponse.setType(part.getType());
         partResponse.setId(part.getId());
         partResponse.setManufacturer(part.getManufacturer());
         partResponse.setBrand(part.getBrand());

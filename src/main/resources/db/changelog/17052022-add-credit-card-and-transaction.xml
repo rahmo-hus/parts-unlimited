@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="add-credit-card-logic-tables" author="rhuseinagic">
+        <createTable tableName="credit_card">
+            <column autoIncrement="true" name="id" type="bigserial">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="card_pkey"/>
+            </column>
+            <column name="number" type="char(16)"/>
+            <column name="first_name" type="varchar"/>
+            <column name="last_name" type="varchar"/>
+            <column name="type" type="varchar(16)"/>
+            <column name="expiration_date" type="timestamp"/>
+            <column name="cvv" type="int"/>
+            <column name="balance" type="double"/>
+            <column name="is_enabled" type="boolean"/>
+        </createTable>
+        <createTable tableName="transaction">
+            <column name="id" type="bigserial" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="transaction_id_pkey"/>
+            </column>
+            <column name="user_id" type="bigint" />
+            <column name="amount" type="decimal"/>
+            <column name="info" type="varchar"/>
+        </createTable>
+        <createTable tableName="transaction_part">
+            <column type="bigint" name="part_id"/>
+            <column name="transaction_id" type="bigint"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="transaction_part"
+                                 baseColumnNames="part_id"
+                                 constraintName="transaction_part_fkey"
+                                 referencedTableName="part"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="transaction_part"
+                                 baseColumnNames="transaction_id"
+                                 constraintName="transaction_transaction_fkey"
+                                 referencedTableName="transaction"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="add-credit-cards-to-database" author="rhuseinagic">
+        <sql splitStatements="true" stripComments="true">
+            insert into credit_card (id, number, first_name, last_name, type, expiration_date, cvv, balance,
+                                        is_enabled)
+            values (1, '2237974906133753', 'Luis', 'Melon', 'MASTERCARD', '2026-08-01 00:00:00', 720, 500, true),
+                   (2, '370681437720419', 'Jaelynn', 'Brown', 'AMERICAN EXPRESS', '2022-02-01 00:00:00', 9003, 5, true),
+                   (3, '4415993792627900', 'Dominick', 'Wyatt', 'VISA', '2026-11-01 00:00:00', 139, 50 , true),
+                   (4, '376094291451473', 'Hal', 'Baeasley', 'AMERICAN EXPRESS', '2024-01-01 00:00:00', 7463, 8000, true);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

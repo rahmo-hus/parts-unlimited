@@ -41,7 +41,6 @@ import java.util.Map;
 public class PartController {
 
     private final PartService partService;
-
     private static final Logger logger = LoggerFactory.getLogger(PartController.class);
     @ExceptionHandler({NoSuchElementFoundException.class, DuplicateItemException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -61,7 +60,6 @@ public class PartController {
     }
 
     @PostMapping("/save")
-    @PreAuthorize("hasRole('WAREHOUSE')")
     public ResponseEntity<PartResponse> save(@Valid @RequestBody PartRequest partRequest) throws ParseException {
         return ResponseEntity.ok(partService.save(partRequest));
     }
@@ -72,7 +70,6 @@ public class PartController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('WAREHOUSE')")
     public ResponseEntity<PartResponse> getOne(@PathVariable Long id){
         return ResponseEntity.ok(partService.getOne(id));
     }

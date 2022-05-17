@@ -8,6 +8,7 @@
     <include file="25042021-create-tables-and-insert.xml" relativeToChangelogFile="true"/>
     <include file="30112021-alter-users-table.xml" relativeToChangelogFile="true"/>
     <include file="07052022-add-additional-fields.xml" relativeToChangelogFile="true"/>
+    <include file="17052022-add-credit-card-and-transaction.xml" relativeToChangelogFile="true"/>
     <include file="changes/insert_all.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
