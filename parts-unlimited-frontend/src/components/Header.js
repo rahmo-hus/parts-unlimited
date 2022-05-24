@@ -3,7 +3,8 @@ import {Link} from 'react-router-dom';
 import Basket from './Basket';
 import {connect} from "react-redux";
 import {logout, whoAmI} from "../actions/Auth";
- import {turnOffHomeFilter} from '../actions/Car';
+import {turnOffHomeFilter} from '../actions/Car';
+
 // import {connect} from "react-redux";
 
 class Header extends Component {
@@ -12,7 +13,7 @@ class Header extends Component {
         this.props.dispatch(whoAmI());
     }
 
-    logout = () =>{
+    logout = () => {
         this.props.dispatch(logout());
     }
 
@@ -49,22 +50,26 @@ class Header extends Component {
                                         </li>
                                     }
                                     <li>
-                                        <a className="icon-1">
-                                            <i className="fa fa-cart-plus"/>
-                                            <span>Checkout</span>
-                                        </a>
-                                    </li>
-                                    <li className="cart-icon">
-                                        <Link to={"/wishlist"}>
-                                            <i className="fa fa-heart"/>
-                                            <span className="badge">{this.props.wishlistproducts.length}</span>
-
+                                        <Link to={'/history'}>
+                                            <span>History</span>
                                         </Link>
                                     </li>
-                                    <Basket/>
+                                    {
+                                        user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                                        <li className="cart-icon">
+                                            <Link to={"/wishlist"}>
+                                                <i className="fa fa-heart"/>
+                                                <span className="badge">{this.props.wishlistproducts.length}</span>
+                                            </Link>
+                                        </li>
+                                    }
+                                    {
+                                        user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                                        <Basket/>
+                                    }
                                     {user &&
                                         <li>
-                                            <a style={{cursor:'pointer'}} onClick={this.logout}>
+                                            <a style={{cursor: 'pointer'}} onClick={this.logout}>
                                                 <i className="fa fa-sign-out"></i>
                                             </a>
                                         </li>
@@ -87,7 +92,7 @@ class Header extends Component {
                                 <div className="hotline">
                                     <span className="m-r-lg-10">Need support? Call us:</span>
                                     <a href="tel:01686813774">
-                                        <i className="fa fa-phone"/>0123-456-789
+                                        <i className="fa fa-phone"/>+387 51 123 456
                                     </a>
                                 </div>
                                 <div className="clearfix"/>
@@ -116,6 +121,12 @@ class Header extends Component {
                                                     <ul className="nav navbar-nav">
                                                         <li className="dropdown"
                                                             onClick={() => turnOffHomeFilter()}>
+                                                            <Link to={"/home"} className="dropdown-toggle">
+                                                                HOME
+                                                            </Link>
+                                                        </li>
+                                                        <li className="dropdown"
+                                                            onClick={() => turnOffHomeFilter()}>
                                                             <Link to={"/cars"} className="dropdown-toggle">
                                                                 CARS
                                                             </Link>
@@ -126,18 +137,18 @@ class Header extends Component {
                                                             </Link>
                                                         </li>
                                                         {
-                                                            user && user.roles[0] === 'ROLE_SALES' &&
+                                                            user && user.roles[0] === 'ROLE_WAREHOUSE' &&
                                                             <li className="dropdown">
                                                                 <Link to={'cars/sell'} className="dropdown-toggle">
-                                                                    SELL A CAR
+                                                                    ADD A CAR
                                                                 </Link>
                                                             </li>
                                                         }
                                                         {
-                                                            user && user.roles[0] === 'ROLE_SALES' &&
+                                                            user && user.roles[0] === 'ROLE_WAREHOUSE' &&
                                                             <li className="dropdown">
                                                                 <Link to={'products/sell'} className="dropdown-toggle">
-                                                                    SELL A PART
+                                                                    ADD A PART
                                                                 </Link>
                                                             </li>
                                                         }

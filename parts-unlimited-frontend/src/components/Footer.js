@@ -12,23 +12,22 @@ const Footer = () => {
                         <h3>Company Info</h3>
                     </div>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit
-                        sed do eiusmod temp incidunt ut .
+                        Parts Unlimited sets the standards and and trends in the highly dynamic automotive aftermarket parts industry.
                     </p>
                     <ul className="list-default">
                         <li>
-                        <i className="fa fa-signal" />123 Holding, Busan, Korea
+                        <i className="fa fa-signal" />Patre 5, Banja Luka, Bosnia and Herzegovina
                         </li>
                         <li>
                         <a href="tel:01686813774">
-                            <i className="fa fa-phone" />0123-456-789
+                            <i className="fa fa-phone" />+387 51 123 456
                         </a>
                         </li>
                         <li>
-                        <i className="fa fa-envelope-o" />Support@htmlcs.com
+                        <i className="fa fa-envelope-o" />support@parts.unlimited.com
                         </li>
                         <li>
-                        <i className="fa fa-globe" />http://www.ndktheme.com
+                        <i className="fa fa-globe" />https://www.parts-unlimited.com
                         </li>
                     </ul>
                     </div>
@@ -38,8 +37,7 @@ const Footer = () => {
                         <h3>Newsletter</h3>
                         </div>
                         <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit
-                        sed do eiusmod temp incidunt ut{" "}
+                        Subscribe to out newsletter{" "}
                         </p>
                         <form>
                         <div className="form-group">
@@ -98,8 +96,8 @@ const Footer = () => {
                 <div className="row">
                     <div className="col-md-6">
                     <p>
-                        © 2016 Designed by{" "}
-                        <a href="https://themeforest.net/user/t3theme">t3theme</a>.
+                        © 2021 Designed by{" "}
+                        <a href="https://github.com/rahmo-hus">Rahmo Hus</a>.
                         All rights reserved
                     </p>
                     </div>

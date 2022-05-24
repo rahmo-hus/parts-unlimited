@@ -12,6 +12,9 @@ import productReducer from "./productReducer";
 import currentProductReducer from "./currentProductReducer";
 import carNamesReducer from "./carNamesReducer";
 import basketReducer from "./basketReducer";
+import creditCardReducer from "./creditCardReducer";
+import transactionReducer from "./transactionReducer";
+import discountReducer from "./discountReducer";
 
 const rootReducer = combineReducers({
     authentication,
@@ -25,6 +28,9 @@ const rootReducer = combineReducers({
     singleCar: fetchSingleCar,
     selectedCar: currentCarReducer,
     basketProducts: basketReducer,
+    creditCard: creditCardReducer,
+    transactions: transactionReducer,
+    discount: discountReducer,
     brands: brandReducer
 });
 

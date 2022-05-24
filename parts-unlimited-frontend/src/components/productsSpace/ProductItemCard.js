@@ -12,7 +12,8 @@ class ProductItemCard extends Component {
         this.state = {
             isInWishList: false,
             product: props.product,
-            isHovered: false
+            isHovered: false,
+            inBasket: false
         };
     };
 
@@ -50,7 +51,9 @@ class ProductItemCard extends Component {
         this.setState({isHovered: false});
     }
 
+
     render() {
+        const user = JSON.parse(localStorage.getItem("user"));
         var heartStyle = {};
         if (!this.state.isHovered) {
             heartStyle = {
@@ -71,45 +74,37 @@ class ProductItemCard extends Component {
                         <h4 className="product-name">
                             <a>{product.name}</a>
                         </h4>
-                        <ul className="rating">
-                            <li className="active">
-                                <i className="fa fa-star"/>
-                            </li>
-                            <li className="active">
-                                <i className="fa fa-star"/>
-                            </li>
-                            <li className="active">
-                                <i className="fa fa-star"/>
-                            </li>
-                            <li>
-                                <i className="fa fa-star"/>
-                            </li>
-                            <li>
-                                <i className="fa fa-star"/>
-                            </li>
-                        </ul>
                         <div className="product-price-group">
                             <span className="product-price">${product.price}</span>
                         </div>
-                        <a className="ht-btn ht-btn-default" onClick={() => {
-                            this.props.addToBasket(product, 1);
-                        }}>Add to cart
-                        </a>
+                        {
+                            user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                            <button
+                            className="ht-btn ht-btn-default" onClick={() => {
+                                this.props.addToBasket(product, 1);
+                            }}>Add to cart
+                            </button>
+                        }
                         <ul className="absolute-caption">
-                            <li>
-                                <i id={JSON.stringify(product)}
-                                   className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"}
-                                   style={heartStyle}
-                                   onClick={this.ToggleProductWishlist.bind(this)}
-                                   onMouseEnter={this.mouseHover.bind(this)}
-                                   onMouseLeave={this.mouseUnHover.bind(this)}
-                                />
-                            </li>
-                            <li>
-                                <i className="fa fa-shopping-basket" onClick={() => {
-                                    this.props.addToBasket(product, 1);
-                                }}/>
-                            </li>
+                            {
+                                user && user.roles[0] === "ROLE_CUSTOMER" &&
+                                <div>
+                                    <li>
+                                        <i id={JSON.stringify(product)}
+                                           className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"}
+                                           style={heartStyle}
+                                           onClick={this.ToggleProductWishlist.bind(this)}
+                                           onMouseEnter={this.mouseHover.bind(this)}
+                                           onMouseLeave={this.mouseUnHover.bind(this)}
+                                        />
+                                    </li>
+                                    <li>
+                                        <i className="fa fa-shopping-basket" onClick={() => {
+                                            this.props.addToBasket(product, 1);
+                                        }}/>
+                                    </li>
+                                </div>
+                            }
                             <li onClick={() => this.props.fetchSingleProduct(product)}>
                                 <Link to={`/products/singleproduct/${product.id}`}>
                                     <i className="fa fa-search"/>

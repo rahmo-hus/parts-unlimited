@@ -26,6 +26,8 @@
             <column name="user_id" type="bigint" />
             <column name="amount" type="decimal"/>
             <column name="info" type="varchar"/>
+            <column name="date" type="timestamp"/>
+            <column name="quantity" type="integer"/>
         </createTable>
         <createTable tableName="transaction_part">
             <column type="bigint" name="part_id"/>

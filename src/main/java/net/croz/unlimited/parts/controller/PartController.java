@@ -54,7 +54,6 @@ public class PartController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('WAREHOUSE')")
     public ResponseEntity<List<PartResponse>> findAll() {
         return ResponseEntity.ok(partService.findAll());
     }

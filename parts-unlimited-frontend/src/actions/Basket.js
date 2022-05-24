@@ -10,6 +10,10 @@ export function addToBasket(product, quantity) {
     };
 }
 
+export function getProductsFromBasket(){
+    return{}
+}
+
 export function removeFromBasket(id) {
     return {
         type: BASKET_REMOVE_ITEM,

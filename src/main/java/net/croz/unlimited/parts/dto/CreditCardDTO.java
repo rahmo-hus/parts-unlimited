@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class CreditCardDTO {
     private String lastName;
     private Integer cvv;
     private String expirationDate;
+    List<CartInfoRequest> cartInfoRequests;
 }

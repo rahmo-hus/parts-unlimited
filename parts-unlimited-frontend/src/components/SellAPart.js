@@ -150,7 +150,7 @@ const SellAPart = props => {
                                                         <li onClick={() => setCategory('TYRES & WHEELS')}>TYRES &
                                                             WHEELS
                                                         </li>
-                                                        <li onClick={() => setCategory('BRAKES DISCS')}>BRAKES DISCS
+                                                        <li onClick={() => setCategory('BRAKES & DISCS')}>BRAKES & DISCS
                                                         </li>
                                                         <li onClick={() => setCategory('EXHAUST TIPS')}>EXHAUST TIPS
                                                         </li>

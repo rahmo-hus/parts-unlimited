@@ -132,8 +132,8 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="discount_pkey"/>
             </column>
-            <column name="start_date" type="date"/>
-            <column name="end_date" type="date"/>
+            <column name="start_date" type="varchar"/>
+            <column name="end_date" type="varchar"/>
             <column name="discount_percentage" type="INTEGER"/>
         </createTable>
     </changeSet>
@@ -141,7 +141,7 @@
         <addForeignKeyConstraint 
                                  baseColumnNames="discount_id" baseTableName="part"
                                  constraintName="part_discount_id_fkey" deferrable="false" initiallyDeferred="false"
-                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                 onDelete="SET NULL" onUpdate="NO ACTION" referencedColumnNames="id"
                                  referencedTableName="discount" validate="true"/>
     </changeSet>
 </databaseChangeLog>

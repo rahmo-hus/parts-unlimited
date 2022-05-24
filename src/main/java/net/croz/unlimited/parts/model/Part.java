@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,8 @@ public class Part {
     private String manufacturer;
     private String image;
     private Double price;
+    @ManyToOne
+    private Discount discount;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date productionDate;
     @ManyToMany(fetch = FetchType.LAZY)

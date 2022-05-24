@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from "react-redux";
 import * as $ from 'jquery';
 import {addToBasket, changeBasketItem, removeFromBasket} from "../actions/Basket";
+import {Link} from "react-router-dom";
 
 class CartFull extends Component {
 
@@ -47,7 +48,7 @@ class CartFull extends Component {
                     <div className="row">
                         <div className="col-sm-3 col-md-3 col-lg-3">
                             <a href=" " className="cart-img-prev">
-                                <img src={`${process.env.PUBLIC_URL}/images/${item.product.image}`} alt=""/>
+                                <img src={item.product.image} alt=""/>
                             </a>
                         </div>
                         <div className="col-sm-9 col-md-9 col-lg-9 p-lg-0">
@@ -105,7 +106,7 @@ class CartFull extends Component {
                             <li className="home-act">
                                 <a href=" ">Shop</a>
                             </li>
-                            <li className="active">Wishlist</li>
+                            <li className="active">Cart</li>
                         </ul>
                     </div>
                 </div>
@@ -124,13 +125,10 @@ class CartFull extends Component {
                             Total : <strong>${this.getTotalPrice()}</strong>
                         </div>
                         <div className="clearfix"/>
-                        {/*
-            <a href=" " className="ht-btn ht-btn-default pull-right">
-            Proceed to check out
-          </a>
-          */}
 
-
+                        <Link to={`/purchase`} className="ht-btn ht-btn-default pull-right">
+                            Proceed to check out
+                        </Link>
                     </div>
                 </div>
             </section>

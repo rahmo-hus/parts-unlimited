@@ -5,6 +5,7 @@ import CarsList from './CarsList';
 import { fetchFilteredCars, turnOffHomeFilter } from '../../actions/Car'
 import { connect } from 'react-redux';
 import $ from 'jquery';
+import {fetchBrands} from "../../actions/Brand";
 
 
 class CarsContainer extends Component {
@@ -53,6 +54,10 @@ class CarsContainer extends Component {
         
     }
 
+    componentDidMount() {
+        this.props.fetchBrands();
+    }
+
     setCarCondition(event) {
         this.setState({ condition: event.target.id });
     }
@@ -93,9 +98,7 @@ class CarsContainer extends Component {
         var {buttonSearchClicked, pageSize, activePage, displayType} = this.state;
         var {fetchedCars, carsList, homefilterActivated }=this.props;
         var cars = fetchedCars && fetchedCars.length !== 0 ? fetchedCars : carsList;
-        console.log(fetchedCars)
-        /**this condition is if the user search for something from the  search button in car cntainer and no results are found 
-         * or enters to car listing throught the home search button and no results found */
+
         if (fetchedCars && fetchedCars.length === 0 && (buttonSearchClicked  || homefilterActivated)) {
             return <div className="banner-item banner-2x no-bg ">
                 <h2 className="f-weight-300"><i className="fa fa-search m-r-lg-10"> </i>No RESULTS</h2>
@@ -114,21 +117,18 @@ class CarsContainer extends Component {
         var {pageSize, buttonSearchClicked}= this.state;
         const { condition, body, make, year, transmission, priceRange } = filters;
         var cars = fetchedCars && fetchedCars.length !== 0 ? fetchedCars : carsList;
-        /**cars list will be empty if a search returns no result */
+
         if(fetchedCars && fetchedCars.length === 0 && buttonSearchClicked) cars= {} ;
-        /**returns a number to know the number of pages */
+
         const table = range(1, Math.ceil(cars.length / pageSize) + 1, 1);
-        
- 
-        /**if I am in cars container And I was in home containers , and I already had a filter then the slider should follow the previous slider 
-         *  filter that was setted in state */
+
         if (!homefilterActivated && buttonSearchClicked) {
             var priceIntervall=this.state.priceRange;
             var min = 1000 * priceIntervall.slice(1, priceIntervall.indexOf(","));
             var max = 1000 * priceIntervall.slice(priceIntervall.indexOf("-") + 3, priceIntervall.indexOf(",", priceIntervall.indexOf("-")));
             window.reRenderRangeSliderOther(min, max);
         }
-        /**If I was in cars containers and I did not changed yet the slider in cars container then the slider should be as in filters */
+
         if (homefilterActivated && !buttonSearchClicked) {
              min = 1000 * priceRange.slice(1, priceRange.indexOf(","));
              max = 1000 * priceRange.slice(priceRange.indexOf("-") + 3, priceRange.indexOf(",", priceRange.indexOf("-")));
@@ -174,17 +174,13 @@ class CarsContainer extends Component {
                                         {filters !== undefined && make !== undefined && make !== '' ? make.toUpperCase() : 'Make'}
                                     </button>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu3">
-                                        <li id="" onClick={this.setCarMake} >Any Car Make</li>
-                                        <li id="ford" onClick={this.setCarMake} >Ford</li>
-                                        <li id="huyndai" onClick={this.setCarMake}>Huyndai</li>
-                                        <li id="nissan" onClick={this.setCarMake}>Nissan</li>
-                                        <li id="chevrolet" onClick={this.setCarMake}>Chevrolet</li>
-                                        <li id="kia" onClick={this.setCarMake}>Kia</li>
-                                        <li id="mazda" onClick={this.setCarMake}>Mazda</li>
-                                        <li id="bmw" onClick={this.setCarMake}>BMW</li>
-                                        <li id="toyota" onClick={this.setCarMake}>Toyota</li>
-                                        <li id="mercedes" onClick={this.setCarMake}>Mercedes Benz</li>
-                                        <li id="ford" onClick={this.setCarMake}>FOrd</li>
+                                        {
+                                            this.props.brands && this.props.brands.map((brand, key)=>{
+                                                return(
+                                                    <li id={brand.name} onClick={this.setCarBody}>{brand.name}</li>
+                                                )
+                                            })
+                                        }
                                     </ul>
                                 </div>
                             </div>
@@ -222,12 +218,6 @@ class CarsContainer extends Component {
                             <button type="button" className="ht-btn ht-btn-default m-t-lg-30" onClick={() => this.buttonSearchClicked()}><i className="fa fa-search"></i>Search Now</button>
                         </div>
                         <div className="clearfix"></div>
-                        <div className="banner-item banner-bg-4 banner-1x color-inher">
-                            <h5>Lorem ipsum dolor</h5>
-                            <h3 className="f-weight-300"><strong>Interior</strong> Accessories</h3>
-                            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel</p>
-                            <a className="ht-btn ht-btn-default">Shop now</a>
-                        </div>
                     </div>
                     <div className="col-sm-7 col-md-8 col-lg-9">
                         <div className="product product-grid product-grid-2 car">
@@ -317,10 +307,10 @@ class CarsContainer extends Component {
         );
     }
 }
-/**fetchedCars is the reducer state for the cars fetched from the API ,
- *  and homefilterActivated is to know if the user entred this page throught the home filter or not */
-function mapStateToProps({fetchedCars, turnOffHomeFilter}) {
-    return {fetchedCars, turnOffHomeFilter};
+
+
+function mapStateToProps({fetchedCars, brands, turnOffHomeFilter}) {
+    return {fetchedCars, brands,turnOffHomeFilter};
 }
 
-export default connect(mapStateToProps, { fetchFilteredCars, turnOffHomeFilter })(CarsContainer);
+export default connect(mapStateToProps, { fetchFilteredCars, fetchBrands, turnOffHomeFilter })(CarsContainer);

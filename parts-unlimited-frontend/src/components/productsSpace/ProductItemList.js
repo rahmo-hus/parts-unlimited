@@ -58,6 +58,7 @@ class ProductItemList extends Component {
             };
         }
     const {product} = this.props;
+    const user = JSON.parse(localStorage.getItem("user"));
     return (
       <div className="product-item hover-img">
         <div className="row">
@@ -76,31 +77,16 @@ class ProductItemList extends Component {
               <h4 className="product-name">
                 <a>{product.name}</a>
               </h4>
-              <ul className="rating">
-                <li className="active">
-                  <i className="fa fa-star" />
-                </li>
-                <li className="active">
-                  <i className="fa fa-star" />
-                </li>
-                <li className="active">
-                  <i className="fa fa-star" />
-                </li>
-                <li>
-                  <i className="fa fa-star" />
-                </li>
-                <li>
-                  <i className="fa fa-star" />
-                </li>
-              </ul>
               <div className="product-price-group">
                 <span className="product-price">
                   ${product.price}
                 </span>
               </div>
               <p className="product-txt">
-                Nunc facilisis sagittis ullamcorper. Proin lectus ipsum
+                {product.description}
               </p>
+              {
+               user && user.roles[0] === 'ROLE_CUSTOMER' &&
               <a
                 className="ht-btn ht-btn-default"
                 onClick={() => {
@@ -109,10 +95,14 @@ class ProductItemList extends Component {
               >
                 Add to cart
               </a>
+              }
               <ul className="absolute-caption">
+                {
+                  user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                    <div>
                 <li>
-                    <i id={JSON.stringify(product)} className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"} 
-                    style={heartStyle} 
+                    <i id={JSON.stringify(product)} className={this.state.isInWishList ? "fa fa-heart" : "fa fa-heart-o"}
+                    style={heartStyle}
                     onClick={this.ToggleProductWishlist.bind(this)}
                     onMouseEnter={this.mouseHover.bind(this)}
                     onMouseLeave={this.mouseUnHover.bind(this)}
@@ -126,6 +116,8 @@ class ProductItemList extends Component {
                     }}
                   />
                 </li>
+                    </div>
+                }
                 <li onClick={()=>this.props.fetchSingleProduct(product)}>
                   <Link to={`/products/singleproduct/${product.id}`}>
                     <i className="fa fa-search" />

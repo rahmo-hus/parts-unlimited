@@ -10,8 +10,7 @@ class BasketItem extends Component{
             <div className="col-xs-4 col-sm-4 col-md-4 col-lg-4 p-l-lg-0">
               <a className="product-img">
                   {
-                      this.props.item.product.image ? <img src={this.props.item.product.image} alt="" /> :
-                          <img src={this.props.item.product.images[0]}/>
+                      this.props.item.product.image && <img src={this.props.item.product.image} alt="" />
                   }
               </a>
             </div>

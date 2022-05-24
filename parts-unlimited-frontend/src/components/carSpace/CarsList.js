@@ -32,7 +32,6 @@ const CarsList = (props)=>{
             {props.carslist.map(car=>renderCarList(car))}
             </div>
     );
-    console.log('props.carslist');
     
 
 }

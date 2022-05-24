@@ -4,14 +4,33 @@ import {addToBasket} from '../../actions/Basket';
 import {Link} from 'react-router-dom';
 import {fetchProducts, fetchSingleProduct} from "../../actions/Product";
 import {whoAmI} from "../../actions/Auth";
+import {addDiscount, deleteDiscount} from "../../actions/Discount";
+import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 
 class ProductDetails extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            addToDiscountClicked: false,
+            discountStartDate: '',
+            discountEndDate: '',
+            discountPercentage: 0,
+            dialogOpen: false
+        }
+
+        this.addToDiscountClick = this.addToDiscountClick.bind(this);
+    }
 
     componentDidMount() {
         const id = window.location.href.charAt(window.location.href.length - 1);
         this.props.fetchSingleProduct(id);
         this.props.fetchProducts(this.props.currentProduct.category);
         this.props.whoAmI();
+    }
+
+    addToDiscountClick = (e) => {
+        this.setState({addToDiscountClicked: true});
     }
 
 
@@ -30,9 +49,21 @@ class ProductDetails extends React.Component {
             image,
             description,
             price,
+            discount,
             cars
         } = this.props.currentProduct;
 
+        const saveDiscount = () => {
+            this.props.addDiscount({
+                discountPercentage: this.state.discountPercentage,
+                endDate: this.state.discountEndDate,
+                startDate: this.state.discountStartDate,
+                partId: id
+            });
+            window.location.reload();
+        }
+
+        const user = JSON.parse(localStorage.getItem("user"));
         let distinctProducts = Object.assign(this.props.products);
         let index = distinctProducts.indexOf(distinctProducts.find(e => e.id === id));
         if (index !== -1) {
@@ -40,8 +71,37 @@ class ProductDetails extends React.Component {
         }
         distinctProducts = distinctProducts.slice(0, 3);
 
+
+        const handleOpen = () => this.setState({dialogOpen: true});
+        const handleClose = () => this.setState({dialogOpen: false});
+
         return (
             <div className="wrap-body-inner">
+                <Dialog
+                    open={this.state.dialogOpen}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">
+                        {"Are you sure?"}
+                    </DialogTitle>
+                    <DialogContent>
+                        <p id="alert-dialog-description">
+                            Are you sure you want to remove discount?
+                        </p>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>No</Button>
+                        <Button onClick={() =>{
+                            this.props.deleteDiscount(discount.id);
+                            handleClose();
+                            window.location.reload();
+                        }} autoFocus>
+                            Yes
+                        </Button>
+                    </DialogActions>
+                </Dialog>
                 <div className=" col-sm-8 col-md-9 col-lg-9">
                     <Link to={"/products"} style={{width: 25}}
                           className="col-sm-1 col-md-1 col-lg-1 p-lg-0 ht-btn ht-btn-default pull-right">
@@ -57,46 +117,87 @@ class ProductDetails extends React.Component {
                                         }
                                     </a>
                                 </div>
+                                {
+                                    user && user.roles[0] === 'ROLE_SALES' && discount &&
+                                    <div className="product_para p-t-lg-10">
+                                        <p className="f-bold">DISCOUNT:
+                                            {discount.active === true ?
+                                                <strong className="color-green ">ACTIVE</strong> :
+                                                <strong className="color-red">INACTIVE</strong>}</p>
+                                        <p className="price"> Percentage: <strong>{discount.discountPercentage}%</strong>
+                                        </p>
+                                        <p>From: <strong>{discount.startDate}</strong> to <strong>{discount.endDate}</strong>
+                                        </p>
+                                        <button className="ht-btn ht-btn-default" onClick={handleOpen}>Remove</button>
+                                    </div>
+                                }
                             </div>
                             <div className="col-md-6 col-lg-6">
                                 <h3 className="product-name">{name}</h3>
                                 <div className="product_para">
-                                    <ul className="rating pull-left m-r-lg-20">
-                                        <li className="active"><i className="fa fa-star"></i></li>
-                                        <li className="active"><i className="fa fa-star"></i></li>
-                                        <li className="active"><i className="fa fa-star"></i></li>
-                                        <li><i className="fa fa-star"></i></li>
-                                        <li><i className="fa fa-star"></i></li>
-                                    </ul>
-                                    <a href=" " className="review-link m-r-lg-10"><i
-                                        className="fa fa-pencil m-r-lg-5"></i>6
-                                        Review </a>
-                                    <a href=" " className="review-link m-r-lg-10"><i
-                                        className="fa fa-pencil m-r-lg-5"></i>Write
-                                        a review</a>
-                                    <p className="price p-t-lg-20 p-b-lg-10 f-30 f-bold color-red">{price}</p>
-                                    <p className="price-old f-20 color1-5">$1,280.00 - do discount</p>
-                                    <p>{serial}</p>
+                                    <p className="price p-t-lg-20 p-b-lg-10 f-30 f-bold color-red">${price}</p>
+                                    {
+                                        discount && discount.active === true &&
+                                        <p className="price-old f-20 color1-5">${(100 * price) / (100 - discount.discountPercentage)}</p>
+                                    }
+                                    <p>Serial number: <strong>{serial}</strong></p>
                                     <hr/>
                                     <p><b>Brand :</b>{brand}</p>
                                     <p><b>Code :</b>{code}</p>
-                                    <p><b>Manufactor :</b>{manufacturer} </p>
+                                    <p><b>Manufacturer :</b>{manufacturer}</p>
                                     <p><b>Availability :</b><strong
                                         className="color-green color1-green">Instock</strong>
                                     </p>
                                     <hr/>
-                                    <div className="pull-left">
-                                        <b className="m-r-lg-5">Qty : </b>
-                                        <input id="quantity" type="text" className="form-item input-qtl"
-                                               defaultValue="1"
-                                               ref={(input) => this.textInput = input}/>
-                                    </div>
-                                    <a className="ht-btn ht-btn-default" onClick={() => {
-                                        this.props.addToBasket(this.props.selectedProduct, parseInt(this.textInput.value, 10));
-                                    }}>Add to cart</a>
-                                    <a href=" " className="ht-btn bg-gray-c bg1-gray-4"><i
-                                        className="fa fa-heart-o"></i></a>
-                                    <a href=" " className="ht-btn bg-gray-c bg1-gray-4"><i className="fa fa-signal"></i></a>
+                                    {
+
+                                        user && user.roles[0] === 'ROLE_CUSTOMER' && <div className="pull-left">
+                                            <b className="m-r-lg-5">Qty : </b>
+                                            <input id="quantity" type="text" className="form-item input-qtl"
+                                                   defaultValue="1"
+                                                   ref={(input) => this.textInput = input}/>
+                                        </div>
+                                    }
+                                    {
+                                        user && user.roles[0] === 'ROLE_CUSTOMER' ?
+                                            <button className="ht-btn ht-btn-default" onClick={() => {
+                                                this.props.addToBasket(this.props.currentProduct, parseInt(this.textInput.value, 10));
+                                            }}>Add to cart</button>
+                                            :
+                                            this.state.addToDiscountClicked === false &&
+                                            <button className="ht-btn ht-btn-default"
+                                                    onClick={this.addToDiscountClick}>Add discount</button>
+                                    }
+                                    {
+                                        this.state.addToDiscountClicked &&
+                                        <div className="product_para">
+                                            <b className="m-r-lg-5"> Percentage (%): </b>
+                                            <input id="quantity" type="text" className="form-item input-qtl"
+                                                   defaultValue="0" onChange={(e) => {
+                                                this.setState({discountPercentage: e.target.value})
+                                            }
+                                            }/>
+                                            <br/>
+                                            <b className="m-r-lg-5"> Start date: </b>
+                                            <input type="date" className="form-item input-qtl m-t-lg-5"
+                                                   style={{width: 150}} onChange={(e) => {
+                                                this.setState({discountStartDate: e.target.value})
+                                            }
+                                            }/>
+                                            <br/>
+                                            <b className="m-r-lg-5 p-r-lg-10"> End date: </b>
+                                            <input type="date" className="form-item input-qtl m-t-lg-5"
+                                                   pattern="dd-mm-yyyy"
+                                                   style={{width: 150}} onChange={(e) => {
+                                                this.setState({discountEndDate: e.target.value})
+                                            }
+                                            }/>
+                                            <br/>
+                                            <button className="ht-btn ht-btn-default m-t-lg-5"
+                                                    onClick={saveDiscount}>Save discount
+                                            </button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -128,29 +229,20 @@ class ProductDetails extends React.Component {
                                                     src={product.image} alt=""/></a>
                                                 <div className="product-caption">
                                                     <h4 className="product-name"><a href=" ">{name}</a></h4>
-                                                    <ul className="rating">
-                                                        <li className="active"><i className="fa fa-star"></i></li>
-                                                        <li className="active"><i className="fa fa-star"></i></li>
-                                                        <li className="active"><i className="fa fa-star"></i></li>
-                                                        <li><i className="fa fa-star"></i></li>
-                                                        <li><i className="fa fa-star"></i></li>
-                                                    </ul>
                                                     <div className="product-price-group">
                                                         <span className="product-price">${product.price}</span>
                                                     </div>
-                                                    <a
-                                                        className="ht-btn ht-btn-default"
-                                                        onClick={() => {
-                                                            this.props.addToBasket(this.props.currentProduct, 1);
-                                                        }}
-                                                    >
-                                                        Add to cart
-                                                    </a>
-                                                    <ul className="absolute-caption">
-                                                        <li><i className="fa fa-heart-o"></i></li>
-                                                        <li><i className="fa fa-signal"></i></li>
-                                                        <li><i className="fa fa-search"></i></li>
-                                                    </ul>
+                                                    {
+                                                        user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                                                        <a
+                                                            className="ht-btn ht-btn-default"
+                                                            onClick={() => {
+                                                                this.props.addToBasket(this.props.currentProduct, 1);
+                                                            }}
+                                                        >
+                                                            Add to cart
+                                                        </a>
+                                                    }
                                                 </div>
                                             </div>
                                         );
@@ -169,4 +261,11 @@ function mapStateToProps({currentProduct, products}) {
     return {products, currentProduct};
 }
 
-export default connect(mapStateToProps, {addToBasket, fetchSingleProduct, whoAmI, fetchProducts})(ProductDetails);
+export default connect(mapStateToProps, {
+    addToBasket,
+    addDiscount,
+    fetchSingleProduct,
+    whoAmI,
+    fetchProducts,
+    deleteDiscount
+})(ProductDetails);

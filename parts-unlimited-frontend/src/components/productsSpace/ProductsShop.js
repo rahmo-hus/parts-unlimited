@@ -58,12 +58,6 @@ class ProductsShop extends Component {
                                     <li><a>Hand brakes<i className="fa fa-chevron-right pull-right"></i></a></li>
                                 </ul>
                             </div>
-                            <div className="banner-item banner-bg-4 banner-1x color-inher">
-                                <h5>Lorem ipsum dolor</h5>
-                                <h3 className="f-weight-300"><strong>Interior</strong> Accessories</h3>
-                                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel</p>
-                                <a className="ht-btn ht-btn-default">Shop now</a>
-                            </div>
                         </div>
                         <Routes>
                             <Route exact path="/" element={<ProductsContainer productsCategory={this.state.activePage}

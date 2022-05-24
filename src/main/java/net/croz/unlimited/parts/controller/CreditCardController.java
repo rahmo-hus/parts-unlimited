@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
@@ -21,7 +19,7 @@ public class CreditCardController {
     private final CreditCardService creditCardService;
 
     @PostMapping
-    public ResponseEntity<Boolean> purchase(@RequestBody CreditCardDTO creditCardDTO, @RequestBody List<Long> iDs){
-        return ResponseEntity.ok(creditCardService.purchase(creditCardDTO, iDs));
+    public ResponseEntity<Boolean> purchase(@RequestBody CreditCardDTO creditCardDTO) {
+        return ResponseEntity.ok(creditCardService.purchase(creditCardDTO));
     }
 }
