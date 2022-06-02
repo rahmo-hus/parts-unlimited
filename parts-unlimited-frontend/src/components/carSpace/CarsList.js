@@ -3,36 +3,36 @@ import CarItemCard from './CarItemCard';
 import CarItemList from './CarItemList';
 
 
-function renderCarCards(car){
-   
-    return(
-        <CarItemCard key={car.id} car={car} />
+function renderCarCards(car) {
+
+    return (
+        <CarItemCard key={car.id} car={car}/>
     );
-    
+
 }
 
-function renderCarList(car){
-    
-     return(
-         <CarItemList key={car.name} car={car} />
-     );
-     
- }
+function renderCarList(car) {
 
-const CarsList = (props)=>{
-    if (props.displayType ==='cards')
-        return(
-            <div>
-            {props.carslist.map(car=>renderCarCards(car))}
-            </div>
+    return (
+        <CarItemList key={car.name} car={car}/>
     );
-    else if(props.displayType ==='list')
-         return(
+
+}
+
+const CarsList = (props) => {
+    if (props.displayType === 'cards')
+        return (
             <div>
-            {props.carslist.map(car=>renderCarList(car))}
+                {props.carslist.map(car => renderCarCards(car))}
             </div>
-    );
-    
+        );
+    else if (props.displayType === 'list')
+        return (
+            <div>
+                {props.carslist.map(car => renderCarList(car))}
+            </div>
+        );
+
 
 }
 

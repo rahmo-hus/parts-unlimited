@@ -15,6 +15,7 @@ public class PartRequest {
     private String name;
     private String type;
     private String image;
+    private Integer quantity;
     private Double price;
     private String description;
     private String category;

@@ -1,6 +1,6 @@
 import {WITHDRAWAL_FAILED, WITHDRAWAL_SUCCESS} from "../actions/Types";
 
-export default function (state = [], action) {
+export default function (state = null, action) {
     switch (action.type) {
         case WITHDRAWAL_SUCCESS:
             return action.payload;

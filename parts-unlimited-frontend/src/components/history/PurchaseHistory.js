@@ -1,14 +1,14 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {fetchTransactions, findAllTransactionsByUserId} from "../actions/Transaction";
-import {whoAmI} from "../actions/Auth";
+import {fetchTransactions, findAllTransactionsByUserId} from "../../actions/Transaction";
+import {CircularProgress} from "@mui/material";
 
 const PurchaseHistory = (props) => {
 
     const user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         if (user.roles[0] === 'ROLE_CUSTOMER') {
-            props.findAllTransactionsByUserId(props.user.id);
+            props.findAllTransactionsByUserId(user.id);
         } else {
             props.fetchTransactions();
         }
@@ -26,7 +26,7 @@ const PurchaseHistory = (props) => {
                         </div>
                     </div>
                     {
-                        transactions && transactions.map((transaction, key) => {
+                        transactions ? transactions.map((transaction, key) => {
                             return (
                                 <div className="product-item">
                                     <div className="row m-lg-0">
@@ -40,6 +40,7 @@ const PurchaseHistory = (props) => {
                                                 <h3 className="p-lg-0">
                                                     <a>{transaction.parts[0].name}</a>
                                                 </h3>
+                                                <hr/>
                                                 <p>
                                                     Quantity: {transaction.quantity}
                                                 </p>
@@ -54,14 +55,17 @@ const PurchaseHistory = (props) => {
                                                 </p>
                                                 {
                                                     user.roles[0] === 'ROLE_SALES' &&
-                                                    <p>Bought by:  <strong>{transaction.user.username}</strong></p>
+                                                    <p>Bought by: <strong>{transaction.user.username}</strong></p>
                                                 }
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             )
-                        })
+                        }):
+                            <div style={{display:"flex", justifyContent:'center'}}>
+                                <CircularProgress/>
+                            </div>
                     }
                 </div>
             </section>
@@ -69,9 +73,8 @@ const PurchaseHistory = (props) => {
     )
 }
 
-function mapStateToProps({transactions, authentication}) {
-    console.log(transactions)
-    return {transactions, user: authentication.user};
+function mapStateToProps({transactions}) {
+    return {transactions};
 }
 
-export default connect(mapStateToProps, {findAllTransactionsByUserId, whoAmI, fetchTransactions})(PurchaseHistory);
+export default connect(mapStateToProps, {findAllTransactionsByUserId, fetchTransactions})(PurchaseHistory);

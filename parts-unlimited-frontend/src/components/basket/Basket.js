@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 
 import BasketItem from './BasketItem';
 import {connect} from "react-redux";
+import Price from "../commons/Price";
 
 
 class Basket extends Component {
@@ -12,7 +13,6 @@ class Basket extends Component {
     }
 
     renderItem(item) {
-        console.log(item)
         return (
             <BasketItem key={item.product.id} item={item}/>
         );
@@ -23,7 +23,7 @@ class Basket extends Component {
             return '0';
         }
         var total = 0;
-        this.props.basketProducts.map(e => total = total + (parseInt(e.product.price, 10) * e.quantity));
+        this.props.basketProducts.map(e => total = total + (parseFloat(e.product.price, 10) * e.quantity));
         return total;
     }
 
@@ -40,8 +40,8 @@ class Basket extends Component {
                     <li className="bg-white bg1-gray-15 color-inher">
                         {this.props.basketProducts.map(e => this.renderItem(e))}
                         <div className="p-t-lg-15 p-b-lg-10">
-                            Total : <strong className="pull-right price">$
-                            {this.getTotalPrice()}
+                            Total : <strong className="pull-right price">
+                            <Price price={this.getTotalPrice()}/>
                         </strong>
                         </div>
                         <div className="clearfix"/>

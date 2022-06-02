@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import {removeFromWishList} from '../actions/Wishlist';
-import {addToBasket} from "../actions/Basket";
+import {removeFromWishList} from '../../actions/Wishlist';
+import {addToBasket} from "../../actions/Basket";
 
 class Wishlist extends Component {
 
@@ -18,7 +18,7 @@ class Wishlist extends Component {
                 <div className="col-sm-5 col-md-5 col-lg-5 cart-item">
                     <div className="row">
                         <div className="col-sm-3 col-md-3 col-lg-3">
-                            <a href=" " className="cart-img-prev">
+                            <a href="parts-unlimited-frontend/src/components/wishlist/Wishlist" className="cart-img-prev">
                                 {
                                     product.image ? <img src={product.image} alt=""/>
                                         : <img src={product.images[0]} alt=""/>
@@ -28,7 +28,7 @@ class Wishlist extends Component {
                         <div className="col-sm-9 col-md-9 col-lg-9 p-lg-0">
                             <div className="product-name">
                                 <h5>
-                                    <a href=" ">{product.name}</a>
+                                    <a href="parts-unlimited-frontend/src/components/wishlist/Wishlist">{product.name}</a>
                                 </h5>
                                 <span className="price">${product.price}</span>
                             </div>
@@ -52,6 +52,10 @@ class Wishlist extends Component {
                     <i className="fa fa-cart-plus cart-remove-btn"
                        style={product.body !== undefined ? {pointerEvents: 'none'} : {}} onClick={() => {
                         this.props.addToBasket(product, 1);
+                        window.scrollTo({
+                            top: 0,
+                            behavior: 'smooth'
+                        })
                     }}></i>
                 </div>
 
@@ -81,12 +85,12 @@ class Wishlist extends Component {
                     <div className="col-lg-6">
                         <ul className="ht-breadcrumb pull-left">
                             <li className="home-act">
-                                <a href=" ">
+                                <a href="parts-unlimited-frontend/src/components/wishlist/Wishlist">
                                     <i className="fa fa-home"/>
                                 </a>
                             </li>
                             <li className="home-act">
-                                <a href=" ">Shop</a>
+                                <a href="parts-unlimited-frontend/src/components/wishlist/Wishlist">Shop</a>
                             </li>
                             <li className="active">WishList</li>
                         </ul>

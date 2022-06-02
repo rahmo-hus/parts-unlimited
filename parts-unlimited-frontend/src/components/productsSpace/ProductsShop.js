@@ -48,9 +48,12 @@ class ProductsShop extends Component {
                                     <li className={this.state.activePage === 'BRAKES & DISCS' ? 'active' : ''}><a
                                         onClick={() => this.renderFiltredProducts('BRAKES & DISCS')}>Brakes discs<i
                                         className="fa fa-chevron-right pull-right"></i></a></li>
-                                    <li><a>Exhaust tips<i className="fa fa-chevron-right pull-right"></i></a></li>
-                                    <li><a>Car covers<i className="fa fa-chevron-right pull-right"></i></a></li>
-                                    <li><a>Seat covers<i className="fa fa-chevron-right pull-right"></i></a></li>
+                                    <li className={this.state.activePage === 'CAR COVERS' ? 'active' : ''}><a
+                                        onClick={() => this.renderFiltredProducts('CAR COVERS')}>Car covers
+                                        <i className="fa fa-chevron-right pull-right"></i></a></li>
+                                    <li className={this.state.activePage === 'SEAT COVERS' ? 'active' : ''}><a
+                                        onClick={() => this.renderFiltredProducts('SEAT COVERS')}>Seat covers
+                                        <i className="fa fa-chevron-right pull-right"></i></a></li>
                                     <li><a>Mirrors<i className="fa fa-chevron-right pull-right"></i></a></li>
                                     <li><a>Bumpers<i className="fa fa-chevron-right pull-right"></i></a></li>
                                     <li><a>Floor mats<i className="fa fa-chevron-right pull-right"></i></a></li>

@@ -31,7 +31,7 @@ public class CarController {
     private final CarService carService;
 
     @PostMapping(value = "save")
-    @PreAuthorize("hasRole('SALES') or hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('SALES') or hasRole('WAREHOUSE')")
     public ResponseEntity<Void> save(@RequestBody CarRequest carRequest){
         carService.save(carRequest);
 
@@ -39,7 +39,6 @@ public class CarController {
     }
 
     @GetMapping("all")
-    @PreAuthorize("hasRole('SALES') or hasRole('CUSTOMER')")
     public ResponseEntity<List<CarResponse>> findAll(){
         return ResponseEntity.ok(carService.findAll());
     }
@@ -59,14 +58,13 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('SALES') or hasRole('CUSTOMER')")
     public ResponseEntity<CarResponse> getOne(@PathVariable(name = "id") Long id){
         return ResponseEntity.ok(carService.getOne(id));
     }
 
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('SALES')")
+    @PreAuthorize("hasRole('WAREHOUSE')")
     public ResponseEntity<Void> delete(@PathVariable(name="id") Long id){
         carService.delete(id);
 

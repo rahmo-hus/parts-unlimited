@@ -1,17 +1,17 @@
-import SharedLayout from "./components/SharedLayout";
+import SharedLayout from "./components/commons/SharedLayout";
 import {useState} from "react";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import SignUp from "./components/SignUp";
+import SignUp from "./components/signup/SignUp";
 import CarShop from "./components/carSpace/CarsShop";
 import CarDetails from "./components/carSpace/CarDetails";
-import SellACar from "./components/SellACar";
+import SellACar from "./components/sale/SellACar";
 import ProductsShop from "./components/productsSpace/ProductsShop";
-import SellAPart from "./components/SellAPart";
+import SellAPart from "./components/sale/SellAPart";
 import ProductDetails from "./components/productsSpace/ProductDetails";
-import Wishlist from "./components/Wishlist";
-import CartFull from "./components/CartFull";
-import PurchaseProduct from "./components/PurchaseProduct";
-import PurchaseHistory from "./components/PurchaseHistory";
+import Wishlist from "./components/wishlist/Wishlist";
+import CartFull from "./components/cart/CartFull";
+import PurchaseProduct from "./components/purchase/PurchaseProduct";
+import PurchaseHistory from "./components/history/PurchaseHistory";
 import Home from "./components/Home";
 
 function App() {

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
-import {fetchBrands} from "../actions/Brand";
-import {saveCar} from "../actions/Car";
+import {fetchBrands} from "../../actions/Brand";
+import {saveCar} from "../../actions/Car";
 
 const Sell = (props) => {
     const [name, setName] = useState('');
@@ -39,8 +39,6 @@ const Sell = (props) => {
             reader.readAsDataURL(file);
 
             reader.onload = () => {
-                // Make a fileInfo Object
-                console.log("Called", reader);
                 baseURL = reader.result;
                 resolve(baseURL);
             };
@@ -88,7 +86,7 @@ const Sell = (props) => {
             <section className="m-t-lg-30 m-t-xs-0 m-b-lg-50">
                 <div>
                     <div className="row">
-                        <div className="col-md-9 col-lg-9">
+                        <div className="col-md-12 col-lg-9">
                             <div className="bg-gray-f5 bg1-gray-15 p-lg-30 p-xs-15">
                                 <div className="m-b-lg-10">
                                     <div className="heading-1">
@@ -194,6 +192,12 @@ const Sell = (props) => {
                                                         {year === 1900 ? "Year" : year}
                                                     </button>
                                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu4">
+                                                        <li onClick={() => setYear(2022)}>2022</li>
+                                                        <li onClick={() => setYear(2021)}>2021</li>
+                                                        <li onClick={() => setYear(2020)}>2020</li>
+                                                        <li onClick={() => setYear(2019)}>2019</li>
+                                                        <li onClick={() => setYear(2018)}>2018</li>
+                                                        <li onClick={() => setYear(2017)}>2017</li>
                                                         <li onClick={() => setYear(2016)}>2016</li>
                                                         <li onClick={() => setYear(2015)}>2015</li>
                                                         <li onClick={() => setYear(2014)}>2014</li>
@@ -248,6 +252,7 @@ const Sell = (props) => {
                                                     </button>
                                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu7">
                                                         <li onClick={() => setFuel('Hybrid')}>Hybrid</li>
+                                                        <li onClick={() => setFuel('LPG')}>LPG</li>
                                                         <li onClick={() => setFuel('Gasoline')}>Gasoline</li>
                                                         <li onClick={() => setFuel('Electric')}>Electric</li>
                                                         <li onClick={() => setFuel('Diesel')}>Diesel</li>
@@ -457,22 +462,6 @@ const Sell = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="m-t-xs-30">
-                                <div className="heading-1">
-                                    <h3>Trouble Uploading?</h3>
-                                </div>
-                                <p>
-                                    Try do something
-                                </p>
-                                <ul className="list-default">
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                </ul>
                             </div>
                         </div>
                     </div>

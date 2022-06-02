@@ -1,7 +1,9 @@
 import React, {useState} from "react";
 import "react-credit-cards/es/styles-compiled.css";
 import {connect} from "react-redux";
-import {purchase} from "../actions/CreditCard";
+import {purchase} from "../../actions/CreditCard";
+import {CircularProgress} from "@mui/material";
+import {removeFromBasket} from "../../actions/Basket";
 
 const CreditCard = (props) => {
     const [number, SetNumber] = useState("");
@@ -10,6 +12,7 @@ const CreditCard = (props) => {
     let [expiry, SetExpiry] = useState("");
     const [cvc, SetCvc] = useState("");
     const [focus, SetFocus] = useState("");
+    const [submitClicked, setSubmitClicked] = useState(false);
 
     const [loading, setLoading] = useState(false);
 
@@ -29,8 +32,7 @@ const CreditCard = (props) => {
         }
         const firstName = name.split(' ')[0];
         const lastName = name.split(' ')[1];
-
-        console.log(productIds)
+        setSubmitClicked(true)
 
         props.purchase({
             number,
@@ -40,7 +42,11 @@ const CreditCard = (props) => {
             cvv: cvc
         }, productIds).then(res => {
             setLoading(res.data);
-        });
+            setLoading(false);
+            for(let data of productIds){
+                props.removeFromBasket(data.id);
+            }
+        }).catch(() => setLoading(false));
     }
 
     return (
@@ -164,7 +170,7 @@ const CreditCard = (props) => {
                         <br/>
                         <div style={{paddingRight: 87}}>
                             {
-                                props.withdrawal && (props.withdrawal === true ?
+                                loading === false && submitClicked && (props.withdrawal === true ?
                                 <div className="alert alert-success">Withdrawal success</div> :
                                     <div className="alert alert-warning">Withdrawal failed</div>)
                             }
@@ -172,9 +178,13 @@ const CreditCard = (props) => {
                                 type="submit"
                                 className="btn btn-secondary form-control ht-btn ht-btn-default m-b-lg-15 p-b-lg-35"
                                 onClick={onSubmit}
-                                disabled={loading}
-                                value="Submit"
-                            >Submit
+                                disabled={loading || props.withdrawal===true}
+                            ><div style={{display:'flex', justifyContent:'center'}}>
+                                <span style={{color:'white'}}>Submit</span>
+                                {
+                                    loading && <CircularProgress size={24} style={{marginLeft:10}}/>
+                                }
+                            </div>
                             </button>
                         </div>
                     </div>
@@ -184,8 +194,9 @@ const CreditCard = (props) => {
     );
 };
 
-function mapStateToProps({withdrawal, basketProducts}) {
+function mapStateToProps({creditCard, basketProducts}) {
+    const {withdrawal} = creditCard || {};
     return {withdrawal, basketProducts};
 }
 
-export default connect(mapStateToProps, {purchase})(CreditCard);
+export default connect(mapStateToProps, {purchase, removeFromBasket})(CreditCard);

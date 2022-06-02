@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import {fetchCarNames} from "../actions/Car";
-import {saveProduct} from "../actions/Product";
+import {fetchCarNames} from "../../actions/Car";
+import {saveProduct} from "../../actions/Product";
 
 const SellAPart = props => {
 
@@ -15,18 +15,19 @@ const SellAPart = props => {
     const [price, setPrice] = useState('');
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
+    const [quantity, setQuantity] = useState('');
     const [image, setImage] = useState(null);
     const [selectedCar, setSelectedCar] = useState(null);
 
     const onFileChange = e => {
-        getBase64(e.target.files[0]).then(res=>{
+        getBase64(e.target.files[0]).then(res => {
             setImage(res);
         });
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         props.fetchCarNames();
-    },[]);
+    }, []);
 
     const getBase64 = (file) => {
         return new Promise(resolve => {
@@ -46,7 +47,7 @@ const SellAPart = props => {
         });
     }
 
-    const onSubmit = () =>{
+    const onSubmit = () => {
         const cars = [];
         cars.push(selectedCar.id);
 
@@ -62,7 +63,8 @@ const SellAPart = props => {
             price,
             description,
             category,
-            carIds:cars
+            quantity,
+            carIds: cars
         });
     }
 
@@ -82,7 +84,7 @@ const SellAPart = props => {
             <section className="m-t-lg-30 m-t-xs-0 m-b-lg-50">
                 <div>
                     <div className="row">
-                        <div className="col-md-9 col-lg-9">
+                        <div className="col-md-12 col-lg-9">
                             <div className="bg-gray-f5 bg1-gray-15 p-lg-30 p-xs-15">
                                 <div className="m-b-lg-10">
                                     <div className="heading-1">
@@ -96,10 +98,20 @@ const SellAPart = props => {
                                                 <p className="color1-8 m-t-lg-5 f-14">Maximum 100 characters</p>
                                             </div>
                                         </div>
-                                        <div className="col-md-12 col-lg-12">
-                                            <div className="form-group">
-                                                <input type="email" className="form-control form-item"
-                                                       placeholder="Price" onChange={e => setPrice(e.target.value)}/>
+                                        <div className="row">
+                                            <div className="m-l-lg-15 col-sm-6 col-md-6 col-lg-6">
+                                                <div className="form-group">
+                                                    <input type="number" className="form-control form-item"
+                                                           placeholder="Price"
+                                                           onChange={e => setPrice(e.target.value)}/>
+                                                </div>
+                                            </div>
+                                            <div className="m-l-lg-35 col-md-5">
+                                                <div className="form-group">
+                                                    <input type="number" className="form-control form-item"
+                                                           placeholder="Quantity in warehouse"
+                                                           onChange={e => setQuantity(e.target.value)}/>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="col-md-12 col-lg-12">
@@ -166,18 +178,6 @@ const SellAPart = props => {
                                             </div>
                                         </div>
                                         <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
-                                            <input type="email" className="form-control form-item" placeholder="Code"
-                                                   onChange={e => setCode(e.target.value)}/>
-                                        </div>
-                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
-                                            <input type="email" className="form-control form-item" placeholder="Serial"
-                                                   onChange={e => setSerial(e.target.value)}/>
-                                        </div>
-                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
-                                            <input type="date" className="form-control form-item" placeholder="Date"
-                                                   onChange={e => setProductionDate(e.target.value)}/>
-                                        </div>
-                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
                                             <div className="select-wrapper">
                                                 <div className="dropdown">
                                                     <button className="dropdown-toggle form-item" type="button"
@@ -202,17 +202,26 @@ const SellAPart = props => {
                                                     <button className="dropdown-toggle form-item" type="button"
                                                             id="dropdownMenu2" data-toggle="dropdown"
                                                             aria-haspopup="true" aria-expanded="true">
-                                                        {selectedCar === null? "Car" : selectedCar.name}
+                                                        {selectedCar === null ? "Car" : selectedCar.name}
                                                     </button>
                                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                         {
-                                                            props.carNames && props.carNames.map((car, key)=>{
-                                                                return <li onClick={()=>setSelectedCar(car)} value={car.name}>{car.name}</li>
+                                                            props.carNames && props.carNames.map((car, key) => {
+                                                                return <li onClick={() => setSelectedCar(car)}
+                                                                           value={car.name}>{car.name}</li>
                                                             })
                                                         }
                                                     </ul>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
+                                            <input type="email" className="form-control form-item" placeholder="Code"
+                                                   onChange={e => setCode(e.target.value)}/>
+                                        </div>
+                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
+                                            <input type="email" className="form-control form-item" placeholder="Serial"
+                                                   onChange={e => setSerial(e.target.value)}/>
                                         </div>
                                         <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
                                             <div className="select-wrapper">
@@ -230,6 +239,12 @@ const SellAPart = props => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="col-sm-6 col-md-4 col-lg-4 m-b-lg-20">
+                                            <label for="production_date">Production date </label>
+                                            <input type="date" className="form-control form-item"
+                                                   placeholder="Production date"
+                                                   onChange={e => setProductionDate(e.target.value)}/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="m-b-lg-20">
@@ -239,22 +254,6 @@ const SellAPart = props => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="col-md-3">
-                            <div className="m-t-xs-30">
-                                <div className="heading-1">
-                                    <h3>Trouble Uploading?</h3>
-                                </div>
-                                <p>
-                                    Try do something
-                                </p>
-                                <ul className="list-default">
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                    <li><a><i className="fa fa-angle-right"></i>Lorem ipsum dolor sit amet</a></li>
-                                </ul>
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {fetchSingleProduct} from '../../actions/Product';
 import {addToBasket} from "../../actions/Basket";
 import {addToWishList, removeFromWishList} from "../../actions/Wishlist";
+import Price from "../commons/Price";
 
 class ProductItemCard extends Component {
 
@@ -75,16 +76,8 @@ class ProductItemCard extends Component {
                             <a>{product.name}</a>
                         </h4>
                         <div className="product-price-group">
-                            <span className="product-price">${product.price}</span>
+                            <Price price={product.price} product={true}/>
                         </div>
-                        {
-                            user && user.roles[0] === 'ROLE_CUSTOMER' &&
-                            <button
-                            className="ht-btn ht-btn-default" onClick={() => {
-                                this.props.addToBasket(product, 1);
-                            }}>Add to cart
-                            </button>
-                        }
                         <ul className="absolute-caption">
                             {
                                 user && user.roles[0] === "ROLE_CUSTOMER" &&
@@ -101,6 +94,10 @@ class ProductItemCard extends Component {
                                     <li>
                                         <i className="fa fa-shopping-basket" onClick={() => {
                                             this.props.addToBasket(product, 1);
+                                            window.scrollTo({
+                                                top: 0,
+                                                behavior: 'smooth'
+                                            })
                                         }}/>
                                     </li>
                                 </div>

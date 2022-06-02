@@ -38,12 +38,14 @@ public class CreditCardService {
             AtomicReference<Double> total = new AtomicReference<>(0.0);
             creditCardDTO.getCartInfoRequests().forEach(id -> {
                 Part part = partRepository.getOne(id.getId());
+                part.setQuantity(part.getQuantity() - id.getQuantity().intValue());
                 parts.add(part);
                 total.updateAndGet(v -> v + part.getPrice() * id.getQuantity());
             });
             if (total.get() <= creditCard.getBalance()) {
                 creditCard.setBalance(creditCard.getBalance() - total.get());
                 creditCardRepository.save(creditCard);
+                partRepository.saveAll(parts);
 
                 Transaction transaction = new Transaction();
                 transaction.setAmount(total.get());

@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {fetchCar as fetchSingleCar} from '../../actions/Car'
 import {addToWishList, removeFromWishList} from "../../actions/Wishlist";
+import Price from "../commons/Price";
 
 class CarItemCard extends Component {
 
@@ -62,6 +63,7 @@ class CarItemCard extends Component {
         const {car} = this.props;
         return (
             <div className="col-sm-12 col-md-6 col-lg-6">
+
                 <div className="product-item hover-img">
                     <a className="product-img">
                         <img src={car.images[0]} alt=""/>
@@ -71,7 +73,7 @@ class CarItemCard extends Component {
                             <a>
                                 {car.name} / <b>{car.condition ? car.condition.toUpperCase() : ''}</b>
                             </a>
-                            <span className="f-18"> ${car.price},000</span>
+                            <Price price={car.price}/>
                         </h4>
                     </div>
                     <ul className="absolute-caption">

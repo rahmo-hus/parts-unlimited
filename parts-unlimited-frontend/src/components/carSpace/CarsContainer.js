@@ -6,6 +6,7 @@ import { fetchFilteredCars, turnOffHomeFilter } from '../../actions/Car'
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import {fetchBrands} from "../../actions/Brand";
+import {CircularProgress} from "@mui/material";
 
 
 class CarsContainer extends Component {
@@ -118,7 +119,6 @@ class CarsContainer extends Component {
         const { condition, body, make, year, transmission, priceRange } = filters;
         var cars = fetchedCars && fetchedCars.length !== 0 ? fetchedCars : carsList;
 
-        if(fetchedCars && fetchedCars.length === 0 && buttonSearchClicked) cars= {} ;
 
         const table = range(1, Math.ceil(cars.length / pageSize) + 1, 1);
 
@@ -220,85 +220,104 @@ class CarsContainer extends Component {
                         <div className="clearfix"></div>
                     </div>
                     <div className="col-sm-7 col-md-8 col-lg-9">
-                        <div className="product product-grid product-grid-2 car">
-                            <div className="heading heading-2 m-b-lg-0">
-                                <h3 className="p-l-lg-20">Cars ({cars.length})</h3>
-                            </div>
-                            <div className="product-filter p-t-xs-20 p-l-xs-20">
-                                <div className="m-b-xs-10 pull-left">
-                                    <a onClick={() => this.setDisplayType('cards')} className={this.state.displayType === 'cards' ? 'active' : ''}>
-                                        <i className="fa fa-th" />
-                                    </a>
-                                    <a onClick={() => this.setDisplayType('list')} className={this.state.displayType === 'list' ? 'active' : ''}>
-                                        <i className="fa fa-th-list" />
-                                    </a>
-                                </div>
-                                <div className="pull-right">
-                                    <div className="pull-left">
-                                        <div className="select-wrapper">
-                                        <label>
-                                            <i className="fa fa-sort-alpha-asc" />Show :{" "}
-                                        </label>
-                                        <div className="dropdown pull-left">
-                                            <button className="dropdown-toggle form-item w-80" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            {this.state.pageSize}
-                                            </button>
-                                            <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        {
+                            cars.length !== 0 ?
+                                <div className="product product-grid product-grid-2 car">
+                                    <div className="heading heading-2 m-b-lg-0">
+                                        <h3 className="p-l-lg-20">Cars ({cars.length})</h3>
+                                    </div>
+                                    <div className="product-filter p-t-xs-20 p-l-xs-20">
+                                        <div className="m-b-xs-10 pull-left">
+                                            <a onClick={() => this.setDisplayType('cards')}
+                                               className={this.state.displayType === 'cards' ? 'active' : ''}>
+                                                <i className="fa fa-th"/>
+                                            </a>
+                                            <a onClick={() => this.setDisplayType('list')}
+                                               className={this.state.displayType === 'list' ? 'active' : ''}>
+                                                <i className="fa fa-th-list"/>
+                                            </a>
+                                        </div>
+                                        <div className="pull-right">
+                                            <div className="pull-left">
+                                                <div className="select-wrapper">
+                                                    <label>
+                                                        <i className="fa fa-sort-alpha-asc"/>Show :{" "}
+                                                    </label>
+                                                    <div className="dropdown pull-left">
+                                                        <button className="dropdown-toggle form-item w-80" type="button"
+                                                                id="dropdownMenu2" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="true">
+                                                            {this.state.pageSize}
+                                                        </button>
+                                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                                            <li>
+                                                                <a onClick={() => this.setPageSize(4)}>4</a>
+                                                            </li>
+                                                            <li>
+                                                                <a onClick={() => this.setPageSize(6)}>6</a>
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    onClick={() =>
+                                                                        this.setPageSize(
+                                                                            cars.length
+                                                                        )}
+                                                                >
+                                                                    All
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div className="clearfix"></div>
+                                    <div className="row">
+                                        {this.renderCars()}
+                                    </div>
+                                    <nav aria-label="Page navigation">
+                                        <ul className="pagination ht-pagination">
                                             <li>
-                                                <a onClick={() => this.setPageSize(4)}>4</a>
-                                            </li>
-                                            <li>
-                                                <a onClick={() => this.setPageSize(6)}>6</a>
-                                            </li>
-                                            <li>
-                                                <a
-                                                onClick={() =>
-                                                    this.setPageSize(
-                                                        cars.length
-                                                    )}
-                                                >
-                                                All
+                                                <a aria-label="Previous"
+                                                   style={this.state.activePage === 1 || cars.length !== 0 ? {display: 'none'} : {display: 'block'}}>
+                                            <span aria-hidden="true">
+                                                <i className="fa fa-chevron-left" onClick={() => {
+                                                    this.setActivePage(this.state.activePage - 1)
+                                                }}/>
+                                            </span>
                                                 </a>
                                             </li>
-                                            </ul>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                            {table.map(i => {
+                                                if (table.length <= 1) return ''
+                                                else {
+                                                    return <li key={i}
+                                                               className={this.state.activePage === i ? "active" : ""}>
+                                                        <a onClick={() => {
+                                                            this.setActivePage(i)
+                                                        }}>{i}</a>
+                                                    </li>;
+                                                }
 
-                            </div>
-                            <div className="clearfix"></div>
-                            <div className="row">
-                                {this.renderCars()}
-                            </div>
-                            <nav aria-label="Page navigation">
-                                <ul className="pagination ht-pagination">
-                                    <li>
-                                        <a aria-label="Previous" style={this.state.activePage === 1 || cars.length !==0 ? { display: 'none' } : { display: 'block' }}>
-                                            <span aria-hidden="true" >
-                                                <i className="fa fa-chevron-left" onClick={() => { this.setActivePage(this.state.activePage - 1) }} />
-                                            </span>
-                                        </a>
-                                    </li>
-                                    {table.map(i => {
-                                        if(table.length<=1) return ''
-                                        else{
-                                            return <li key={i} className={this.state.activePage === i ? "active" : ""}>
-                                                    <a onClick={() => { this.setActivePage(i) }}>{i}</a>
-                                                </li>;
-                                        }
-                                        
-                                    })}
-                                    <li>
-                                        <a aria-label="Next" style={this.state.activePage === Math.ceil(cars.length / this.state.pageSize) || cars.length !==0  ? { display: 'none' } : { display: 'block' }}>
+                                            })}
+                                            <li>
+                                                <a aria-label="Next"
+                                                   style={this.state.activePage === Math.ceil(cars.length / this.state.pageSize) || cars.length !== 0 ? {display: 'none'} : {display: 'block'}}>
                                             <span aria-hidden="true">
-                                                <i className="fa fa-chevron-right" onClick={() => { this.setActivePage(this.state.activePage + 1) }} />
+                                                <i className="fa fa-chevron-right" onClick={() => {
+                                                    this.setActivePage(this.state.activePage + 1)
+                                                }}/>
                                             </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>:
+                                <div style={{display:"flex", justifyContent:"center", marginTop:250}}>
+                                    <CircularProgress/>
+                                </div>
+                        }
                     </div>
                 </div>
             </section>

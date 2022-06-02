@@ -4,29 +4,38 @@ import {Box} from "@mui/material";
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {TabContext} from "@mui/lab";
-import { connect } from 'react-redux';
-import {login} from '../actions/Auth';
+import {connect} from 'react-redux';
+import {login, register} from '../../actions/Auth';
 
 function SignUp(props) {
 
     const [value, setValue] = useState("1");
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
+    const [firstName, setFirstName] = useState(null);
+    const [lastName, setLastName] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [passwordRepeat, setPasswordRepeat] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [registerErrorMessage, setErrorMessage] = useState('');
 
-    const registerClicked = () => {
-        //handle
+    const registerClicked = e => {
+        e.preventDefault();
+        const {dispatch} = props;
+        if (firstName && lastName && email && username && password && passwordRepeat) {
+            setSubmitted(true);
+            dispatch(register(firstName, lastName, username, email, password, passwordRepeat));
+        }
+        else{
+            setErrorMessage("All fields must be not null")
+        }
     }
 
     function loginClicked(e) {
         e.preventDefault();
         setSubmitted(true);
         const {dispatch} = props;
-        if(username && password){
+        if (username && password) {
             dispatch(login(username, password));
         }
     }
@@ -35,7 +44,7 @@ function SignUp(props) {
         <Box sx={{width: '100%', bgcolor: 'background.paper'}}>
             <TabContext value={value}>
                 <TabList onChange={(e, k) => {
-                    setValue(k+"")
+                    setValue(k + "")
                 }} aria-label="disabled tabs example" centered
                 >
                     <Tab label="Login" value="1">
@@ -82,8 +91,20 @@ function SignUp(props) {
                             <input type="password" className="form-control" placeholder="********"
                                    onChange={e => setPasswordRepeat(e.target.value)}/>
                         </div>
+                        {
+                            props.registered === false && <div className="alert alert-warning m-t-lg-20" role="alert">
+                                Register failed. Check you data.
+                            </div>
+                        }
+                        {
+                            registerErrorMessage === false && <div className="alert alert-warning m-t-lg-20" role="alert">
+                                {registerErrorMessage}
+                            </div>
+                        }
+                        <button type="submit" className="ht-btn ht-btn-default btn-block"
+                                onClick={registerClicked}>Register
+                        </button>
 
-                        <button type="submit" className="btn btn-dark btn-lg btn-block">Register</button>
                     </form>
                 </TabPanel>
                 <TabPanel value="1">
@@ -98,9 +119,15 @@ function SignUp(props) {
 
                         <div className="form-group">
                             <label>Password</label>
-                            <input type="password"  value={password} onChange={e => setPassword(e.target.value)} className="form-control" placeholder="********"/>
+                            <input type="password" value={password} onChange={e => setPassword(e.target.value)}
+                                   className="form-control" placeholder="********"/>
                         </div>
-                        <button type="submit" className="btn btn-default btn-lg btn-block">Login</button>
+                        <button type="submit" className="ht-btn ht-btn-default btn-block">Login</button>
+                        {
+                            props.message && <div className="alert alert-warning m-t-lg-20" role="alert">
+                                Login failed. Check your credentials.
+                            </div>
+                        }
                     </form>
                 </TabPanel>
             </TabContext>
@@ -109,9 +136,9 @@ function SignUp(props) {
 }
 
 function mapStateToProps(state) {
-    const { loggingIn } = state.authentication;
+    const {loggingIn, message, registered} = state.authentication;
     return {
-        loggingIn
+        loggingIn, message, registered
     };
 }
 

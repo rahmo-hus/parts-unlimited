@@ -58,7 +58,10 @@ public class CarService {
 
     public List<CarResponse> filter(CarFilterDTO carFilterDTO){
         String priceBottom = carFilterDTO.getPriceRange().split("-")[0].trim().replace("$", "") , priceUpper = carFilterDTO.getPriceRange().split("-")[1].trim().replace("$", "");
-        List<Car> cars = carRepository.findAllByBodyAndConditionAndBrandNameAndTransmissionAndPriceBetween(carFilterDTO.getBody(), carFilterDTO.getCondition(), carFilterDTO.getMake(), carFilterDTO.getTransmission(), Double.parseDouble(priceBottom.replace(",",".")), Double.parseDouble(priceUpper.replace(",", ".")));
+        List<Car> cars = carRepository.findAllByBodyAndConditionAndBrandNameAndTransmissionAndPriceBetween(carFilterDTO.getBody(), carFilterDTO.getCondition(), carFilterDTO.getMake(), carFilterDTO.getTransmission(), Double.parseDouble(priceBottom.replace(",","")), Double.parseDouble(priceUpper.replace(",", "")));
+        if(cars.isEmpty() && carFilterDTO.getBody().equals("") && carFilterDTO.getTransmission().equals("") && carFilterDTO.getCondition().equals("")){
+            cars = carRepository.findAllByPriceBetween(Double.parseDouble(priceBottom.replace(",","")), Double.parseDouble(priceUpper.replace(",", "")));
+        }
         List<CarResponse> carResponses = new ArrayList<>();
         cars.forEach(car -> carResponses.add(carToCarResponseMapper.convert(car)));
 

@@ -1,6 +1,29 @@
-import {GET_USER_DATA_SUCCESS, LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT, SET_MESSAGE} from "./Types";
+import {
+    GET_USER_DATA_SUCCESS,
+    LOGIN_FAIL,
+    LOGIN_SUCCESS,
+    LOGOUT,
+    REGISTER_FAIL,
+    REGISTER_SUCCESS,
+    SET_MESSAGE
+} from "./Types";
 import AuthService from "../services/AuthService";
 import {history} from "../helpers/History";
+
+export const register = (firstName, lastName, username, email, password, passwordRepeat) => dispatch =>{
+    return AuthService.register(firstName, lastName, username, email, password, passwordRepeat).then(data=>{
+        dispatch({
+            type: REGISTER_SUCCESS,
+            payload: {user: data}
+        })
+        return Promise.resolve();
+    }, err=>{
+        dispatch({
+            type: REGISTER_FAIL,
+            payload: {message: err.message}
+        })
+    })
+}
 
 export const login = (username, password) => (dispatch) =>{
     return AuthService.login(username, password).then(
@@ -22,7 +45,7 @@ export const login = (username, password) => (dispatch) =>{
                 error.toString();
 
             dispatch({
-                type: LOGIN_FAIL,
+                type: LOGIN_FAIL
             });
 
             dispatch({

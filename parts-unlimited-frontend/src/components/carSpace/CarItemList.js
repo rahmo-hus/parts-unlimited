@@ -90,7 +90,7 @@ class CarItemList extends Component {
                             <h5 className="product-name" style={{backgroundColor: '#f5f5f5', textAlign:'center'}}>
                                     {car.name}
                             </h5>
-                            <b className="product-price color-red">${car.price}</b>
+                            <b className="product-price color-red">${car.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.00</b>
                             <p className="product-txt m-t-lg-10">{car.description}</p>
                         </div>
 

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import Basket from './Basket';
+import Basket from '../basket/Basket';
 import {connect} from "react-redux";
-import {logout, whoAmI} from "../actions/Auth";
-import {turnOffHomeFilter} from '../actions/Car';
+import {logout, whoAmI} from "../../actions/Auth";
+import {turnOffHomeFilter} from '../../actions/Car';
 
 // import {connect} from "react-redux";
 
@@ -49,11 +49,14 @@ class Header extends Component {
                                             </a>
                                         </li>
                                     }
-                                    <li>
-                                        <Link to={'/history'}>
-                                            <span>History</span>
-                                        </Link>
-                                    </li>
+                                    {
+                                        user && user.roles[0] === 'ROLE_CUSTOMER' &&
+                                        <li>
+                                            <Link to={'/history'}>
+                                                <span>History</span>
+                                            </Link>
+                                        </li>
+                                    }
                                     {
                                         user && user.roles[0] === 'ROLE_CUSTOMER' &&
                                         <li className="cart-icon">
@@ -69,9 +72,9 @@ class Header extends Component {
                                     }
                                     {user &&
                                         <li>
-                                            <a style={{cursor: 'pointer'}} onClick={this.logout}>
+                                            <Link style={{cursor: 'pointer'}} to={'/home'} onClick={this.logout}>
                                                 <i className="fa fa-sign-out"></i>
-                                            </a>
+                                            </Link>
                                         </li>
                                     }
                                 </ul>

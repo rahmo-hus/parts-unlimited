@@ -1174,6 +1174,8 @@ a.ht-btn-3x{
 	position:relative;
 	float:right;
 }
+
+
 .product-grid-2 .product-caption .product-name span::after{
 	position:absolute;
 	top:0px;
@@ -1192,6 +1194,8 @@ a.ht-btn-3x{
 	background:#29af19;
 	color:#fff;
 }
+
+
 /*--- Product filter---*/
 .product-filter{
 	display:inline-block;
@@ -1266,7 +1270,7 @@ a.ht-btn-3x{
 	font-weight:normal;
 }
 .input-qtl{
-	width:50px;
+	width:100px;
 	text-align:center;
 	margin-right:10px;
 	height:45px;

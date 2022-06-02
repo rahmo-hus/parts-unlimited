@@ -19,6 +19,7 @@ public class PartRequestToPartMapper {
         part.setType(partRequest.getType());
         part.setManufacturer(partRequest.getManufacturer());
         part.setBrand(partRequest.getBrand());
+        part.setQuantity(partRequest.getQuantity());
         part.setCategory(partRequest.getCategory());
         part.setCode(partRequest.getCode());
         part.setDescription(partRequest.getDescription());

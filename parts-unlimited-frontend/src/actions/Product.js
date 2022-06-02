@@ -1,4 +1,4 @@
-import {FETCH_PRODUCTS, SAVE_PRODUCT, SAVE_PRODUCT_FAIL, SELECTED_PRODUCT} from "./Types";
+import {DELETE_PRODUCT, FETCH_PRODUCTS, SAVE_PRODUCT, SAVE_PRODUCT_FAIL, SELECTED_PRODUCT} from "./Types";
 import axios from 'axios';
 import authHeader from "../services/AuthHeader";
 import {history} from "../helpers/History";
@@ -26,5 +26,15 @@ export const fetchSingleProduct = id => async dispatch =>{
         type: SELECTED_PRODUCT,
         payload: res.data
     });
+}
+
+export const deleteProduct = id => async dispatch =>{
+    const res = await axios.delete(`${API_URL}/${id}`, {headers: authHeader()});
+    if(res.status === 204){
+        dispatch({
+            type: DELETE_PRODUCT,
+            payload:{deletionSuccess: true}
+        })
+    }
 }
 

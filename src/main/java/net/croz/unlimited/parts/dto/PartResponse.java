@@ -18,6 +18,7 @@ public class PartResponse {
     private String image;
     private String description;
     private Double price;
+    private Integer quantity;
     private List<CarResponse> cars;
     private DiscountResponse discount;
 }

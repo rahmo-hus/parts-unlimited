@@ -36,6 +36,7 @@ public class Part {
     private String manufacturer;
     private String image;
     private Double price;
+    private Integer quantity;
     @ManyToOne
     private Discount discount;
     @DateTimeFormat(pattern = "dd-MM-yyyy")

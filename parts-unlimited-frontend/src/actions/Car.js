@@ -2,7 +2,7 @@ import {
     DELETE_CAR, FETCH_CAR_NAMES,
     FETCH_CARS,
     FETCH_FILTERED_CARS,
-    FETCH_SINGLE_CAR,
+    FETCH_SINGLE_CAR, FETCH_SINGLE_CAR_PROGRESS,
     FILTER_ACTIVATION,
     SAVE_CAR_FAIL,
     SAVE_CAR_SUCCESS
@@ -35,9 +35,9 @@ export const deleteCar = id => async dispatch =>{
 
 export const saveCar = car => async dispatch => {
     axios.post(API_URL + '/save', car, {headers: authHeader()}).then(() => {
+        dispatch({type: SAVE_CAR_SUCCESS, payload: {success:true}});
         history.push('/cars');
         window.location.reload();
-        dispatch({type: SAVE_CAR_SUCCESS, payload: {success:true}});
     }).catch(e => {
         dispatch({
             type: SAVE_CAR_FAIL,
