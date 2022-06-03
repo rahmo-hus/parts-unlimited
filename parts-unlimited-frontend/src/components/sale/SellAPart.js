@@ -84,7 +84,7 @@ const SellAPart = props => {
             <section className="m-t-lg-30 m-t-xs-0 m-b-lg-50">
                 <div>
                     <div className="row">
-                        <div className="col-md-12 col-lg-9">
+                        <div className="col-md-12 col-lg-12">
                             <div className="bg-gray-f5 bg1-gray-15 p-lg-30 p-xs-15">
                                 <div className="m-b-lg-10">
                                     <div className="heading-1">
@@ -106,7 +106,7 @@ const SellAPart = props => {
                                                            onChange={e => setPrice(e.target.value)}/>
                                                 </div>
                                             </div>
-                                            <div className="m-l-lg-35 col-md-5">
+                                            <div className="m-l-lg-60 col-md-5">
                                                 <div className="form-group">
                                                     <input type="number" className="form-control form-item"
                                                            placeholder="Quantity in warehouse"

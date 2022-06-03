@@ -45,7 +45,7 @@ const PurchaseHistory = (props) => {
                                                     Quantity: {transaction.quantity}
                                                 </p>
                                                 <p>
-                                                    Amount: <strong>${transaction.amount}</strong>
+                                                    Amount: <strong>${(Math.round(transaction.amount*100)/100).toFixed(2)}</strong>
                                                 </p>
                                                 <p>
                                                     Date purchased: <strong>{transaction.date.split('T')[0]}</strong>

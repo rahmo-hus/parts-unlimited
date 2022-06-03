@@ -86,7 +86,7 @@ const Sell = (props) => {
             <section className="m-t-lg-30 m-t-xs-0 m-b-lg-50">
                 <div>
                     <div className="row">
-                        <div className="col-md-12 col-lg-9">
+                        <div className="col-md-12 col-lg-12">
                             <div className="bg-gray-f5 bg1-gray-15 p-lg-30 p-xs-15">
                                 <div className="m-b-lg-10">
                                     <div className="heading-1">
